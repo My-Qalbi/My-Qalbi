@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>My Eternal Love</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital@1&family=Dancing+Script:wght@700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital@1&family=Dancing+Script:wght@700&family=Montserrat:wght@200;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
@@ -138,12 +138,25 @@ h1{
 #hiddenArea{
   display:none;
   margin-top:16px;
-  animation:fadeIn .8s ease forwards;
+  animation:fadeIn 1s ease forwards;
 }
 
 @keyframes fadeIn{
   from{opacity:0;transform:translateY(10px);}
   to{opacity:1;transform:translateY(0);}
+}
+
+/* 🔥 Premium Forever Text */
+.forever-text{
+  font-family:'Playfair Display',serif;
+  font-size:1.9rem;
+  font-weight:700;
+  letter-spacing:1px;
+  color:#fff;
+  text-shadow:
+    0 0 10px rgba(255,45,117,.6),
+    0 0 20px rgba(212,175,55,.4);
+  margin-top:12px;
 }
 
 /* Heart click pop text */
@@ -178,11 +191,10 @@ h1{
 }
 
 .secret-text{
-  font-family:'Dancing Script',cursive;
+  font-family:'Playfair Display',serif;
   font-size:clamp(2rem,8vw,3rem);
   text-align:center;
-  text-shadow:0 0 20px var(--neon-pink);
-  z-index:2;
+  text-shadow:0 0 25px var(--neon-pink);
 }
 
 .overlay-heart{
@@ -220,10 +232,12 @@ h1{
   <div class="countdown" id="countdown">10</div>
 
   <div id="hiddenArea">
-    <p style="color:var(--neon-pink);font-family:'Dancing Script';font-size:1.6rem;">
-      Always yours, Forever 💖
-    </p>
-    <div style="font-size:13px;color:#ccc;">Shake phone for secret surprise</div>
+    <div class="forever-text">
+      Always Yours, Forever 💖
+    </div>
+    <div style="font-size:13px;color:#ccc;margin-top:6px;">
+      📱 Shake phone for secret surprise
+    </div>
   </div>
 </div>
 
@@ -232,17 +246,15 @@ h1{
 </div>
 
 <script>
-
 const container=document.getElementById("heart-container");
 const revealBtn=document.getElementById("revealBtn");
 const hiddenArea=document.getElementById("hiddenArea");
 const countdown=document.getElementById("countdown");
 const overlay=document.getElementById("secretOverlay");
 
-const WORDS=["Mailu","Chellakutty","Prangun"];
 const COLORS=["#ff2d75","#ff758c","#d4af37"];
 
-/* Slow floating hearts */
+/* Ultra slow floating hearts */
 function createHeart(){
   const heart=document.createElement("div");
   heart.className="heart";
@@ -251,28 +263,15 @@ function createHeart(){
   heart.style.fontSize=(Math.random()*18+12)+"px";
   heart.style.animationDuration=(Math.random()*10+20)+"s";
   heart.style.color=COLORS[Math.floor(Math.random()*3)];
-
-  heart.onclick=(e)=>{
-    const pop=document.createElement("div");
-    pop.className="pop-love";
-    pop.textContent=WORDS[Math.floor(Math.random()*WORDS.length)];
-    pop.style.left=e.clientX+"px";
-    pop.style.top=e.clientY+"px";
-    document.body.appendChild(pop);
-    setTimeout(()=>pop.remove(),900);
-  };
-
   container.appendChild(heart);
   heart.addEventListener("animationend",()=>heart.remove());
 }
 setInterval(createHeart,1500);
 
-
-/* 10 Second Countdown Reveal */
+/* Countdown reveal */
 let revealed=false;
 revealBtn.addEventListener("click",()=>{
   if(revealed) return;
-
   revealBtn.style.display="none";
   countdown.style.display="block";
 
@@ -288,58 +287,10 @@ revealBtn.addEventListener("click",()=>{
       countdown.style.display="none";
       hiddenArea.style.display="block";
       revealed=true;
-
-      if(navigator.vibrate)
-        navigator.vibrate([50,30,50]);
     }
   },1000);
 });
-
-
-/* Shake Secret Overlay */
-let lastShake=0;
-window.addEventListener("devicemotion",(e)=>{
-  if(!revealed) return;
-
-  const a=e.accelerationIncludingGravity;
-  if(!a) return;
-
-  const mag=Math.sqrt(a.x*a.x+a.y*a.y+a.z*a.z);
-
-  if(mag>16 && Date.now()-lastShake>1500){
-    lastShake=Date.now();
-    showSecretOverlay();
-  }
-});
-
-function showSecretOverlay(){
-  overlay.style.display="flex";
-  startOverlayHearts();
-
-  setTimeout(()=>{
-    overlay.style.display="none";
-  },10000);
-}
-
-function startOverlayHearts(){
-  let count=0;
-  const interval=setInterval(()=>{
-    if(count>60){ clearInterval(interval); return; }
-
-    const h=document.createElement("div");
-    h.className="overlay-heart";
-    h.textContent="❤";
-    h.style.left=Math.random()*100+"vw";
-    h.style.color=COLORS[Math.floor(Math.random()*3)];
-    h.style.fontSize=(Math.random()*16+16)+"px";
-    h.style.animationDuration=(Math.random()*5+7)+"s";
-
-    overlay.appendChild(h);
-    h.addEventListener("animationend",()=>h.remove());
-    count++;
-  },180);
-}
-
 </script>
+
 </body>
 </html>
