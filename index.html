@@ -1,513 +1,561 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>For You ❤️</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Eternal Love</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@1&family=Dancing+Script:wght@700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#070A12;
-      --glass: rgba(255,255,255,.08);
-      --stroke: rgba(255,255,255,.12);
-      --pink:#ff4d6d;
-      --mint:#7cffb2;
-      --txt: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.72);
+    :root {
+      --neon-pink: #ff2d75;
+      --gold: #d4af37;
+      --glass: rgba(10, 10, 10, 0.7);
     }
 
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      color:var(--txt);
-      background:
-        radial-gradient(900px 600px at 18% 10%, rgba(255,77,109,.22), transparent 55%),
-        radial-gradient(800px 540px at 88% 30%, rgba(124,255,178,.14), transparent 55%),
-        radial-gradient(1200px 800px at 55% 120%, rgba(140,120,255,.10), transparent 60%),
-        var(--bg);
-      overflow-x:hidden;
-      min-height:100vh;
-    }
-
-    .wrap{max-width:980px;margin:0 auto;padding:56px 18px 88px; position:relative;}
-    .top{
-      display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
-      margin-bottom:18px;
-    }
-    .badge{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 14px; border-radius:999px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 12px 30px rgba(0,0,0,.25);
-      color: var(--muted);
-      font-size:13px;
-    }
-    .dot{
-      width:10px;height:10px;border-radius:50%;
-      background: radial-gradient(circle at 30% 30%, #fff, var(--pink));
-      box-shadow: 0 0 18px rgba(255,77,109,.55);
-    }
-
-    h1{font-size:46px; margin:0; letter-spacing:.2px; line-height:1.05}
-    .sub{margin:6px 0 0; color:var(--muted); font-size:15px}
-    .name{
-      background: linear-gradient(90deg, rgba(255,255,255,.95), rgba(255,77,109,.95), rgba(124,255,178,.95));
-      -webkit-background-clip:text; background-clip:text;
-      color: transparent;
-      text-shadow: 0 0 18px rgba(255,77,109,.10);
-    }
-
-    .card{
-      background: var(--glass);
-      border: 1px solid var(--stroke);
-      border-radius: 22px;
-      padding: 22px;
-      margin: 16px 0;
-      box-shadow: 0 18px 50px rgba(0,0,0,.34);
-      backdrop-filter: blur(12px);
-      position: relative;
-      overflow:hidden;
-    }
-    .card:before{
-      content:"";
-      position:absolute; inset:-2px;
-      background:
-        radial-gradient(800px 120px at 15% 10%, rgba(255,77,109,.26), transparent 55%),
-        radial-gradient(800px 120px at 85% 90%, rgba(124,255,178,.18), transparent 55%);
-      filter: blur(18px);
-      opacity:.55;
-      z-index:0;
-    }
-    .card > *{position:relative; z-index:1;}
-
-    .grid{display:grid; gap:14px; grid-template-columns:1fr;}
-    @media (min-width:760px){ .grid{grid-template-columns:1fr 1fr;} }
-
-    .mini{
-      border-radius:18px; padding:18px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-    }
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:6px 10px; border-radius:999px;
-      background: rgba(255,77,109,.14);
-      border:1px solid rgba(255,77,109,.28);
-      color: rgba(255,255,255,.85);
-      font-size:12px;
-      margin-top:10px;
-    }
-
-    .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap;}
-    input{
-      width: min(460px, 100%);
-      padding: 12px 14px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      color: #fff;
-      outline: none;
-    }
-    input:focus{ border-color: rgba(255,77,109,.55); box-shadow: 0 0 0 4px rgba(255,77,109,.10); }
-
-    .btn{
-      cursor:pointer; border:0;
-      padding: 12px 16px;
-      border-radius: 14px;
-      font-weight: 800;
-      font-size: 14px;
-      color:#fff;
-      background: linear-gradient(135deg, rgba(255,77,109,1), rgba(255,77,109,.7));
-      box-shadow: 0 18px 40px rgba(255,77,109,.18);
-      transform: translateZ(0);
-      position: relative;
-      overflow:hidden;
-    }
-    .btn:before{
-      content:"";
-      position:absolute; inset:-40%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.32), transparent);
-      transform: translateX(-60%) rotate(12deg);
-      animation: shimmer 2.2s ease-in-out infinite;
-    }
-    @keyframes shimmer{
-      0%{ transform: translateX(-70%) rotate(12deg); opacity:.0;}
-      30%{opacity:.65}
-      60%{opacity:.18}
-      100%{ transform: translateX(70%) rotate(12deg); opacity:0;}
-    }
-    .btn:hover{ filter: brightness(1.05); }
-    .btn:active{ transform: scale(.99); }
-
-    .status{font-size:13px;color:var(--muted)}
-    .ok{color:var(--mint); font-weight:700}
-    .no{color:#ff9aa9; font-weight:700}
-
-    .reveal{display:none; margin-top:14px;}
-    .fadeIn{
-      animation: fadeIn .8s ease forwards;
-      opacity:0; transform: translateY(14px);
-    }
-    @keyframes fadeIn{to{opacity:1; transform: translateY(0);} }
-
-    .small{font-size:13px;color:var(--muted)}
-    .center{display:flex; justify-content:center; align-items:center;}
-
-    /* PREMIUM UNLOCK OVERLAY */
-    .overlay{
-      position: fixed; inset:0;
-      display:none;
-      z-index: 9999;
-      background: rgba(0,0,0,.55);
-      backdrop-filter: blur(10px);
-      align-items:center; justify-content:center;
-    }
-    .modal{
-      width:min(560px, 92vw);
-      border-radius: 26px;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow: 0 30px 90px rgba(0,0,0,.55);
-      overflow:hidden;
-      position:relative;
-    }
-    .modal:before{
-      content:"";
-      position:absolute; inset:-3px;
-      background:
-        radial-gradient(700px 160px at 15% 20%, rgba(255,77,109,.35), transparent 60%),
-        radial-gradient(700px 160px at 85% 80%, rgba(124,255,178,.22), transparent 60%);
-      filter: blur(18px);
-      opacity:.75;
-      z-index:0;
-    }
-    .modal .inner{position:relative; z-index:1; padding: 18px 18px 14px;}
-    .modal h3{margin:0 0 6px; font-size:18px}
-    .modal p{margin:0; color: var(--muted); font-size:13px}
-
-    #fx{
+    html, body {
+      margin: 0;
+      padding: 0;
       width: 100%;
-      height: 360px;
-      display:block;
-      background: rgba(0,0,0,.16);
-      border-top:1px solid rgba(255,255,255,.10);
-      border-bottom:1px solid rgba(255,255,255,.10);
+      height: 100%;
+      background: #000;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+      touch-action: none;
     }
 
-    .modalActions{
-      display:flex; justify-content:space-between; align-items:center; gap:12px;
-      padding: 14px 18px 18px;
+    /* Animated Heart Particles Background (clickable) */
+    #heart-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: auto;
+      overflow: hidden;
     }
-    .ghost{
+
+    .heart {
+      position: absolute;
+      color: var(--neon-pink);
+      filter: drop-shadow(0 0 10px var(--neon-pink));
+      animation: moveUp linear forwards;
+      opacity: 0;
+      will-change: transform, opacity;
+      user-select: none;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    @keyframes moveUp {
+      0% { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
+      20% { opacity: 0.7; }
+      100% { transform: translateY(-20vh) rotate(360deg) scale(1.2); opacity: 0; }
+    }
+
+    /* Pop text animation (Mailu/Chellakutty/Prangun) */
+    .pop-love {
+      position: fixed;
+      z-index: 9999;
+      font-family: 'Dancing Script', cursive;
+      font-size: 28px;
+      color: var(--gold);
+      text-shadow:
+        0 0 12px rgba(212,175,55,.55),
+        0 0 18px rgba(255,45,117,.35);
+      transform: translate(-50%, -50%) scale(.9);
+      opacity: 0;
+      animation: popLove .95s ease forwards;
+      pointer-events: none;
+      white-space: nowrap;
+      letter-spacing: .2px;
+    }
+
+    @keyframes popLove {
+      0%   { opacity:0; transform: translate(-50%, -50%) scale(.85) translateY(10px); }
+      25%  { opacity:1; transform: translate(-50%, -50%) scale(1.14) translateY(0); }
+      70%  { opacity:.95; }
+      100% { opacity:0; transform: translate(-50%, -50%) scale(1.02) translateY(-26px); }
+    }
+
+    /* Sparkle trail */
+    .sparkle {
+      position: fixed;
+      left: 0; top: 0;
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(.6);
+      animation: sparkleFloat .85s ease-out forwards;
+      will-change: transform, opacity;
+      box-shadow:
+        0 0 10px rgba(212,175,55,.55),
+        0 0 18px rgba(255,45,117,.25);
+      background: radial-gradient(circle at 30% 30%, #fff, var(--gold));
+    }
+
+    @keyframes sparkleFloat {
+      0%   { opacity:0; transform: translate(-50%, -50%) scale(.5) translateY(6px); }
+      20%  { opacity:1; }
+      100% { opacity:0; transform: translate(-50%, -50%) scale(1.15) translateY(-26px); }
+    }
+
+    /* ✅ Shake-to-reveal badge */
+    .shakeBadge{
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(212,175,55,.25);
+      backdrop-filter: blur(10px);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,.88);
+      box-shadow: 0 0 22px rgba(255,45,117,.18);
+      user-select:none;
+    }
+    .shakeBadge b{ color: var(--gold); }
+
+    /* Premium Card */
+    .card {
+      position: relative;
+      z-index: 10;
+      width: 90%;
+      max-width: 420px;
+      padding: 40px;
+      background: var(--glass);
+      backdrop-filter: blur(25px);
+      border: 1.5px solid rgba(212, 175, 55, 0.3);
+      border-radius: 40px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(255, 45, 117, 0.2);
+      transition: transform 0.12s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    /* Gold Decorative Corners */
+    .card::before, .card::after {
+      content: "✧";
+      position: absolute;
+      color: var(--gold);
+      font-size: 24px;
+      text-shadow: 0 0 12px rgba(212,175,55,.25);
+    }
+    .card::before { top: 20px; left: 20px; }
+    .card::after { bottom: 20px; right: 20px; }
+
+    .profile-wrapper {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 20px;
+    }
+
+    .profile-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--gold);
+      padding: 5px;
+      box-shadow: 0 0 25px var(--neon-pink);
+      display: block;
       background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow:none;
     }
 
-    /* subtle float on main hero */
-    .heroFloat{ animation: heroFloat 4.2s ease-in-out infinite; transform-origin:center; }
-    @keyframes heroFloat{
-      0%,100%{ transform: translateY(0); }
-      50%{ transform: translateY(-8px); }
+    h1 {
+      font-family: 'Amiri', serif;
+      font-size: 3rem;
+      color: var(--gold);
+      margin: 10px 0;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+
+    .divider {
+      height: 1px;
+      width: 60%;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 15px auto;
+    }
+
+    .message {
+      font-weight: 200;
+      letter-spacing: 1px;
+      line-height: 1.6;
+      font-style: italic;
+      color: #eee;
+    }
+
+    .btn-premium {
+      margin-top: 30px;
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 12px 40px;
+      border-radius: 100px;
+      cursor: pointer;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      transition: 0.5s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-premium:hover {
+      background: var(--gold);
+      color: black;
+      box-shadow: 0 0 30px var(--gold);
+    }
+
+    #hidden-area {
+      display: none;
+      margin-top: 25px;
+      animation: slideUp 1s ease forwards;
+    }
+
+    /* ✅ Extra hidden message (shake unlock) */
+    #shake-secret{
+      display:none;
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(212,175,55,.22);
+      background: rgba(0,0,0,.45);
+      box-shadow: 0 0 22px rgba(212,175,55,.08);
+      animation: slideUp 0.8s ease forwards;
+    }
+    #shake-secret .t1{
+      font-family: 'Dancing Script', cursive;
+      font-size: 26px;
+      color: var(--gold);
+      margin: 0 0 6px;
+      text-shadow: 0 0 14px rgba(212,175,55,.30);
+    }
+    #shake-secret .t2{
+      font-size: 13px;
+      color: rgba(255,255,255,.86);
+      margin:0;
+      letter-spacing:.4px;
+      line-height:1.5;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .arabic-text {
+      font-family: 'Amiri', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .heart { animation: none; display: none; }
+      .card { transition: none; }
+      .pop-love { animation: none; }
+      .sparkle { display: none; }
+      .shakeBadge { display:none; }
     }
   </style>
 </head>
+
 <body>
+  <div id="heart-container"></div>
 
-  <!-- Premium unlock overlay -->
-  <div class="overlay" id="overlay">
-    <div class="modal">
-      <div class="inner">
-        <h3>Unlocking… ❤️</h3>
-        <p>Watch closely. This is made only for you.</p>
-      </div>
-      <canvas id="fx"></canvas>
-      <div class="modalActions">
-        <span class="small" id="fxText">Collecting hearts…</span>
-        <button class="btn ghost" onclick="closeOverlay()">Skip</button>
+  <div class="card" id="card">
+    <div class="profile-wrapper">
+      <img id="heroImg"
+           src="https://i.pinimg.com/736x/8d/f3/d3/8df3d31481b2c454e95d5c7f89b917c0.jpg"
+           alt="Anime Couple">
+    </div>
+
+    <p style="font-size: 0.7rem; letter-spacing: 4px; color: var(--neon-pink);">HABIBI</p>
+    <h1>يا حبيبي</h1>
+    <div class="divider"></div>
+
+    <p class="message">
+      "In every heartbeat, I find another reason to love you. You are my universe, my peace, and my forever."
+    </p>
+
+    <button class="btn-premium" id="revealBtn" onclick="reveal()">Discover My Soul</button>
+
+    <div id="hidden-area">
+      <p class="arabic-text">أحبك إلى الأبد</p>
+      <p style="color: var(--neon-pink); font-family: 'Dancing Script', cursive; font-size: 1.8rem;">
+        Always yours, Forever.
+      </p>
+
+      <!-- ✅ Shake-to-reveal secret -->
+      <div id="shake-secret">
+        <p class="t1">Shhh… secret unlocked 💖</p>
+        <p class="t2">If you’re reading this, it means you shook the phone. I’m smiling right now 😄</p>
       </div>
     </div>
   </div>
 
-  <div class="wrap">
-    <div class="top">
-      <div>
-        <h1 class="heroFloat">Hey <span class="name" id="name">My Love</span> ❤️</h1>
-        <p class="sub">I made this little website just for you. Slow-ah scroll pannunga 🙂</p>
-      </div>
-      <div class="badge"><span class="dot"></span> Private Surprise Mode</div>
-    </div>
+  <div class="shakeBadge" id="shakeBadge">📱 <b>Shake</b> the phone for one more secret</div>
 
-    <div class="card">
-      <h2>3 things I love about you</h2>
-      <div class="grid">
-        <div class="mini">
-          <strong>1)</strong> <span id="love1">Your smile that fixes my bad days.</span>
-          <div class="pill">Always</div>
-        </div>
-        <div class="mini">
-          <strong>2)</strong> <span id="love2">The way you support me.</span>
-          <div class="pill">Forever</div>
-        </div>
-        <div class="mini">
-          <strong>3)</strong> <span id="love3">Your kindness to everyone.</span>
-          <div class="pill">My favorite</div>
-        </div>
-        <div class="mini">
-          <strong>Bonus:</strong> <span id="love4">You feel like home.</span>
-          <div class="pill">❤️</div>
-        </div>
-      </div>
-    </div>
+  <script>
+    // -----------------------------
+    // Smooth Tilt Effect (fixed)
+    // -----------------------------
+    const card = document.getElementById('card');
 
-    <div class="card">
-      <h2>Memory lane</h2>
-      <p class="small">Best moment with you:</p>
-      <div class="mini" style="margin-top:10px">
-        <span id="memory">The day we laughed nonstop and forgot the whole world.</span>
-      </div>
-    </div>
+    function applyTilt(clientX, clientY){
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width/2;
+      const cy = rect.top + rect.height/2;
 
-    <div class="card">
-      <h2>Unlock the surprise 🔐</h2>
-      <p class="small">Hint: our special word / nickname / place.</p>
-      <div class="row" style="margin-top:10px">
-        <input id="code" placeholder="Enter the secret word..." />
-        <button class="btn" onclick="unlock()">Unlock</button>
-        <span id="status" class="status"></span>
-      </div>
+      const dx = (clientX - cx) / (rect.width/2);
+      const dy = (clientY - cy) / (rect.height/2);
 
-      <div class="reveal" id="reveal">
-        <div class="mini fadeIn">
-          <h3 style="margin:0 0 8px">Surprise message ✨</h3>
-          <p id="message" style="margin:0; color: rgba(255,255,255,.88); line-height:1.6">
-            I’m proud of you. I choose you—today, tomorrow, always.
-            <br><br>
-            <strong>Will you go on a date with me this week?</strong> 😄
-          </p>
-          <div style="margin-top:12px" class="row">
-            <button class="btn" onclick="softBurst()">More magic 🎉</button>
-            <span class="small" id="magic"></span>
-          </div>
-        </div>
-      </div>
-    </div>
+      const max = 10;
+      const rotY = dx * max;
+      const rotX = -dy * max;
 
-    <p class="small">Made with love. Powered by GitHub Pages.</p>
-  </div>
-
-<script>
-  // ✅ EDIT HERE (only these 2 lines)
-  const PARTNER_NAME = "My Love";
-  const SECRET = "love"; // lowercase
-
-  document.getElementById("name").textContent = PARTNER_NAME;
-
-  const overlay = document.getElementById("overlay");
-  const fxText = document.getElementById("fxText");
-
-  function unlock(){
-    const v = (document.getElementById("code").value || "").trim().toLowerCase();
-    const status = document.getElementById("status");
-
-    if(v !== SECRET){
-      status.textContent = "Oops… try again 🙂";
-      status.className = "status no";
-      return;
+      card.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
     }
 
-    status.textContent = "Unlocked ✅";
-    status.className = "status ok";
+    window.addEventListener('mousemove', (e) => {
+      applyTilt(e.clientX, e.clientY);
+    }, { passive:true });
 
-    // show premium overlay and run heart-form animation
-    openOverlay();
-    runHeartFormAnimation().then(() => {
-      // reveal content after animation
-      const r = document.getElementById("reveal");
-      r.style.display = "block";
-      r.scrollIntoView({behavior:"smooth"});
-      softBurst();
+    window.addEventListener('touchmove', (e) => {
+      if(!e.touches || !e.touches[0]) return;
+      applyTilt(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive:true });
+
+    window.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateY(0deg) rotateX(0deg)';
     });
-  }
 
-  function openOverlay(){
-    overlay.style.display = "flex";
-  }
-  function closeOverlay(){
-    overlay.style.display = "none";
-  }
+    // -----------------------------
+    // Sparkle Cursor Trail
+    // -----------------------------
+    const SPARKLE_MAX = 80;
+    const SPARKLE_MS = 32;
+    let lastSparkle = 0;
 
-  // ---------- Premium heart-form animation (canvas) ----------
-  const canvas = document.getElementById("fx");
-  const ctx = canvas.getContext("2d");
-  let cw=0,ch=0, dpr=1;
+    function spawnSparkle(x, y){
+      const existing = document.querySelectorAll('.sparkle');
+      if(existing.length >= SPARKLE_MAX) existing[0].remove();
 
-  function resize(){
-    dpr = window.devicePixelRatio || 1;
-    cw = canvas.clientWidth;
-    ch = canvas.clientHeight;
-    canvas.width = Math.floor(cw * dpr);
-    canvas.height = Math.floor(ch * dpr);
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-  }
-  window.addEventListener("resize", resize);
-  resize();
+      const s = document.createElement('div');
+      s.className = 'sparkle';
+      s.style.left = x + 'px';
+      s.style.top = y + 'px';
 
-  // Heart curve points generator
-  function heartPoint(t){
-    // classic heart param
-    const x = 16*Math.pow(Math.sin(t),3);
-    const y = 13*Math.cos(t) - 5*Math.cos(2*t) - 2*Math.cos(3*t) - Math.cos(4*t);
-    return {x, y};
-  }
+      const size = Math.random() * 8 + 6;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
 
-  function lerp(a,b,t){ return a+(b-a)*t; }
-  function rand(a,b){ return a + Math.random()*(b-a); }
+      const glow = Math.random() * 0.35 + 0.25;
+      s.style.boxShadow =
+        `0 0 10px rgba(212,175,55,${glow}),
+         0 0 18px rgba(255,45,117,${glow * 0.6})`;
 
-  function runHeartFormAnimation(){
-    return new Promise((resolve) => {
-      resize();
-      const particles = [];
-      const target = [];
+      document.body.appendChild(s);
+      s.addEventListener('animationend', () => s.remove());
+    }
 
-      // prepare target points (a big heart)
-      const scale = Math.min(cw, ch) * 0.030; // tune size
-      const cx = cw/2;
-      const cy = ch/2 + 10;
+    function handleSparkleMove(x, y){
+      const now = performance.now();
+      if(now - lastSparkle < SPARKLE_MS) return;
+      lastSparkle = now;
+      spawnSparkle(x, y);
+    }
 
-      const N = 360; // target points
-      for(let i=0;i<N;i++){
-        const t = (i/N) * Math.PI * 2;
-        const p = heartPoint(t);
-        target.push({
-          x: cx + p.x*scale,
-          y: cy - p.y*scale
-        });
-      }
+    window.addEventListener('mousemove', (e) => {
+      handleSparkleMove(e.clientX, e.clientY);
+    }, { passive:true });
 
-      // create particles from random positions
-      const M = 320;
-      for(let i=0;i<M;i++){
-        const tp = target[Math.floor(Math.random()*target.length)];
-        particles.push({
-          x: rand(0,cw), y: rand(ch*0.1, ch),
-          vx: 0, vy: 0,
-          tx: tp.x + rand(-6,6), ty: tp.y + rand(-6,6),
-          size: rand(1.5,3.2),
-          a: 0,
-          w: rand(0.04, 0.09), // attraction
-          drag: rand(0.86, 0.92),
-          hue: Math.random() < 0.7 ? "pink" : "mint"
-        });
-      }
+    window.addEventListener('touchmove', (e) => {
+      const t = e.touches && e.touches[0];
+      if(!t) return;
+      handleSparkleMove(t.clientX, t.clientY);
+    }, { passive:true });
 
-      let start = performance.now();
-      const duration = 2400; // ms
-      let settled = false;
+    // -----------------------------
+    // Click heart => random petname
+    // -----------------------------
+    const LOVE_WORDS = ["Mailu", "Chellakutty", "Prangun"];
 
-      function draw(now){
-        const t = Math.min(1, (now - start)/duration);
+    function showLoveWord(x, y){
+      const pop = document.createElement("div");
+      pop.className = "pop-love";
+      pop.textContent = LOVE_WORDS[Math.floor(Math.random() * LOVE_WORDS.length)];
+      pop.style.left = x + "px";
+      pop.style.top = y + "px";
+      document.body.appendChild(pop);
+      setTimeout(() => pop.remove(), 950);
+    }
 
-        ctx.clearRect(0,0,cw,ch);
+    // -----------------------------
+    // Hearts (perf + clickable)
+    // -----------------------------
+    const container = document.getElementById('heart-container');
+    const colors = ['#ff2d75', '#ff758c', '#d4af37'];
 
-        // glow background
-        ctx.globalAlpha = 1;
-        const g = ctx.createRadialGradient(cx, cy, 10, cx, cy, Math.min(cw,ch)*0.55);
-        g.addColorStop(0, "rgba(255,77,109,.18)");
-        g.addColorStop(0.6, "rgba(124,255,178,.08)");
-        g.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = g;
-        ctx.fillRect(0,0,cw,ch);
+    const MAX_HEARTS = 80;
+    const SPAWN_EVERY_MS = 260;
+    let lastSpawn = 0;
 
-        // progress label
-        if(t < 0.35) fxText.textContent = "Collecting hearts…";
-        else if(t < 0.75) fxText.textContent = "Forming the heart…";
-        else fxText.textContent = "Almost there…";
+    function createHeart() {
+      if(container.childElementCount >= MAX_HEARTS) return;
 
-        // animate particles towards targets
-        let totalDist = 0;
-        for(const p of particles){
-          p.a = Math.min(1, p.a + 0.03);
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = '❤';
 
-          const ax = (p.tx - p.x) * p.w;
-          const ay = (p.ty - p.y) * p.w;
+      const size = Math.random() * 25 + 10;
+      heart.style.fontSize = size + 'px';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
+      heart.style.color = colors[Math.floor(Math.random() * colors.length)];
 
-          p.vx = (p.vx + ax) * p.drag;
-          p.vy = (p.vy + ay) * p.drag;
+      heart.addEventListener("pointerdown", (e) => {
+        e.stopPropagation();
+        showLoveWord(e.clientX, e.clientY);
+      }, { passive:true });
 
-          // add slight swirl early for premium feel
-          const swirl = (1 - t) * 0.9;
-          p.vx += Math.cos((p.x+p.y)*0.01) * swirl * 0.18;
-          p.vy += Math.sin((p.x-p.y)*0.01) * swirl * 0.18;
+      container.appendChild(heart);
+      heart.addEventListener('animationend', () => heart.remove());
+    }
 
-          p.x += p.vx;
-          p.y += p.vy;
-
-          const dx = p.tx - p.x;
-          const dy = p.ty - p.y;
-          totalDist += Math.hypot(dx,dy);
-
-          // draw as tiny glowing dots (heart particles)
-          ctx.save();
-          ctx.globalAlpha = p.a;
-          const color = p.hue === "pink" ? "rgba(255,77,109,.95)" : "rgba(124,255,178,.85)";
-          ctx.shadowColor = color;
-          ctx.shadowBlur = 14;
-          ctx.fillStyle = color;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-          ctx.fill();
-          ctx.restore();
+    function loop(ts){
+      if(!document.hidden){
+        if(ts - lastSpawn > SPAWN_EVERY_MS){
+          createHeart();
+          lastSpawn = ts;
         }
-
-        // draw outline heart once it settles
-        if(t > 0.55){
-          ctx.save();
-          ctx.globalAlpha = (t-0.55)/0.45 * 0.9;
-          ctx.strokeStyle = "rgba(255,255,255,.22)";
-          ctx.lineWidth = 1.2;
-          ctx.beginPath();
-          for(let i=0;i<target.length;i++){
-            const pt = target[i];
-            if(i===0) ctx.moveTo(pt.x, pt.y);
-            else ctx.lineTo(pt.x, pt.y);
-          }
-          ctx.closePath();
-          ctx.stroke();
-          ctx.restore();
-        }
-
-        // settle check near end
-        if(!settled && t > 0.92){
-          if(totalDist / particles.length < 6){
-            settled = true;
-            // hold for a moment then close
-            setTimeout(()=>{
-              fxText.textContent = "Unlocked ✅";
-              setTimeout(()=>{
-                closeOverlay();
-                resolve();
-              }, 450);
-            }, 350);
-            return;
-          }
-        }
-
-        requestAnimationFrame(draw);
       }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
 
-      requestAnimationFrame(draw);
+    // -----------------------------
+    // Reveal main hidden area
+    // -----------------------------
+    function reveal() {
+      const hidden = document.getElementById('hidden-area');
+      const btn = document.getElementById('revealBtn');
+      if(hidden.style.display === 'block') return;
+
+      hidden.style.display = 'block';
+      btn.style.display = 'none';
+
+      // show shake hint only after reveal
+      document.getElementById('shakeBadge').style.display = 'block';
+    }
+
+    // -----------------------------
+    // ✅ Shake to reveal secret (mobile)
+    // -----------------------------
+    const shakeSecret = document.getElementById('shake-secret');
+    const shakeBadge = document.getElementById('shakeBadge');
+    let shakeUnlocked = false;
+
+    // Shake detection tuning
+    const SHAKE_THRESHOLD = 16;     // higher => needs stronger shake
+    const COOLDOWN_MS = 1200;
+
+    let lastShake = 0;
+
+    function vibrate(ms){
+      if(navigator.vibrate) navigator.vibrate(ms);
+    }
+
+    function unlockByShake(){
+      if(shakeUnlocked) return;
+      shakeUnlocked = true;
+
+      shakeSecret.style.display = 'block';
+      shakeBadge.textContent = "✅ Secret unlocked";
+      vibrate([60,40,60,40,80]);
+
+      // optional: auto hide badge after a bit
+      setTimeout(() => {
+        shakeBadge.style.display = 'none';
+      }, 2500);
+    }
+
+    // iOS requires permission for devicemotion sometimes
+    async function enableMotionIfNeeded(){
+      if (typeof DeviceMotionEvent !== 'undefined' &&
+          typeof DeviceMotionEvent.requestPermission === 'function') {
+        try {
+          const res = await DeviceMotionEvent.requestPermission();
+          return res === 'granted';
+        } catch {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // Ask permission on first user gesture (required on iOS)
+    let motionEnabled = false;
+    function onFirstGesture(){
+      if(motionEnabled) return;
+      enableMotionIfNeeded().then(ok => {
+        motionEnabled = ok;
+        // If denied, badge message
+        if(!ok){
+          shakeBadge.textContent = "⚠️ Motion permission denied";
+        }
+      });
+      window.removeEventListener('pointerdown', onFirstGesture);
+    }
+    window.addEventListener('pointerdown', onFirstGesture, { passive:true });
+
+    window.addEventListener('devicemotion', (e) => {
+      // only meaningful after reveal
+      const hidden = document.getElementById('hidden-area');
+      if(hidden.style.display !== 'block') return;
+
+      const now = Date.now();
+      if(now - lastShake < COOLDOWN_MS) return;
+
+      const a = e.accelerationIncludingGravity;
+      if(!a) return;
+
+      const x = a.x || 0, y = a.y || 0, z = a.z || 0;
+      const mag = Math.sqrt(x*x + y*y + z*z);
+
+      // basic shake detect
+      if(mag > SHAKE_THRESHOLD){
+        lastShake = now;
+        unlockByShake();
+      }
     });
-  }
 
-  // ---------- small extra burst on main page ----------
-  function softBurst(){
-    const emojis = ["🎉","✨","💖","🥰","🌸","🫶","😍","🎊"];
-    let out = "";
-    for(let i=0;i<28;i++) out += emojis[Math.floor(Math.random()*emojis.length)];
-    document.getElementById("magic").textContent = out;
-  }
-</script>
+    // -----------------------------
+    // Image fallback
+    // -----------------------------
+    const heroImg = document.getElementById('heroImg');
+    heroImg.addEventListener('error', () => {
+      heroImg.style.display = 'none';
+      const wrapper = heroImg.parentElement;
+      wrapper.style.borderRadius = '50%';
+      wrapper.style.background = 'rgba(255,255,255,.06)';
+      wrapper.style.boxShadow = '0 0 25px rgba(255,45,117,.35)';
+    });
+
+    // Start with badge hidden until reveal
+    document.getElementById('shakeBadge').style.display = 'none';
+  </script>
 </body>
 </html>
