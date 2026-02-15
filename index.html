@@ -24,7 +24,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* ✅ Mobile-friendly layout: not hard-centered, uses safe padding */
     body{
       position:relative;
       display:flex;
@@ -106,7 +105,7 @@
       100% { opacity:0; transform: translate(-50%,-50%) scale(1.15) translateY(-26px); }
     }
 
-    /* ✅ Mobile-first card sizing */
+    /* Mobile-first card sizing */
     .card{
       position:relative;
       z-index:10;
@@ -121,11 +120,10 @@
       transform-style: preserve-3d;
       will-change: transform;
       max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-      overflow:auto; /* ✅ if small phone, content scroll inside card */
+      overflow:auto;
       -webkit-overflow-scrolling: touch;
     }
 
-    /* decorative corners smaller on mobile */
     .card::before,.card::after{
       content:"✧";
       position:absolute;
@@ -204,7 +202,7 @@
       text-transform:uppercase;
       letter-spacing: 2.5px;
       transition: .35s;
-      width: 100%;          /* ✅ full width on mobile */
+      width: 100%;
       max-width: 320px;
     }
     .btn-premium:hover{
@@ -247,12 +245,11 @@
       color: rgba(255,255,255,.88);
       box-shadow: 0 0 22px rgba(255,45,117,.18);
       user-select:none;
-      width: min(92vw, 420px);   /* ✅ doesn't overflow */
+      width: min(92vw, 420px);
       text-align:center;
     }
     .shakeBadge b{ color: var(--gold); }
 
-    /* Extra hidden message (shake unlock) */
     #shake-secret{
       display:none;
       margin-top: 14px;
@@ -276,11 +273,6 @@
       margin:0;
       letter-spacing:.35px;
       line-height:1.5;
-    }
-
-    /* ✅ Mobile performance: less hearts/sparkles */
-    @media (max-width: 420px){
-      .heart{ filter: drop-shadow(0 0 8px var(--neon-pink)); }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -328,12 +320,11 @@
   <div class="shakeBadge" id="shakeBadge">📱 <b>Shake</b> the phone for one more secret</div>
 
   <script>
-    // ✅ Mobile-friendly: reduce tilt strength + disable on very small screens
+    // Mobile tilt (light)
     const card = document.getElementById('card');
     const isSmall = () => window.matchMedia("(max-width: 420px)").matches;
 
     function applyTilt(clientX, clientY){
-      // On tiny screens, keep tilt very light (to avoid dizziness)
       const rect = card.getBoundingClientRect();
       const cx = rect.left + rect.width/2;
       const cy = rect.top + rect.height/2;
@@ -342,13 +333,9 @@
       const dy = (clientY - cy) / (rect.height/2);
 
       const max = isSmall() ? 5 : 10;
-      const rotY = dx * max;
-      const rotX = -dy * max;
-
-      card.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+      card.style.transform = `rotateY(${dx * max}deg) rotateX(${-dy * max}deg)`;
     }
 
-    // Mouse + Touch tilt (works both)
     window.addEventListener('mousemove', (e) => applyTilt(e.clientX, e.clientY), { passive:true });
     window.addEventListener('touchmove', (e) => {
       const t = e.touches && e.touches[0];
@@ -408,12 +395,15 @@
       handleSparkleMove(t.clientX, t.clientY);
     }, { passive:true });
 
-    // Hearts (reduced on mobile)
+    // ✅ Hearts (SLOWER + smoother)
     const container = document.getElementById('heart-container');
     const colors = ['#ff2d75', '#ff758c', '#d4af37'];
 
     const MAX_HEARTS = isSmall() ? 45 : 80;
-    const SPAWN_EVERY_MS = isSmall() ? 340 : 260;
+
+    // ✅ spawn slower (more gap)
+    const SPAWN_EVERY_MS = isSmall() ? 520 : 420;
+
     let lastSpawn = 0;
 
     function createHeart(){
@@ -423,11 +413,17 @@
       heart.className = 'heart';
       heart.textContent = '❤';
 
-      const size = Math.random() * (isSmall()? 18 : 25) + (isSmall()? 10 : 10);
+      // size
+      const size = Math.random() * (isSmall()? 16 : 22) + 10;
       heart.style.fontSize = size + 'px';
       heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (Math.random() * 3 + (isSmall()? 4.5 : 5)) + 's';
       heart.style.color = colors[Math.floor(Math.random()*colors.length)];
+
+      // ✅ duration longer = slower movement
+      // mobile: 10–15s, desktop: 9–14s
+      const base = isSmall() ? 10 : 9;
+      const extra = isSmall() ? 5 : 5;
+      heart.style.animationDuration = (Math.random() * extra + base) + 's';
 
       heart.addEventListener("pointerdown", (e)=>{
         e.stopPropagation();
@@ -533,7 +529,6 @@
       wrapper.style.boxShadow='0 0 25px rgba(255,45,117,.35)';
     });
 
-    // start badge hidden until reveal
     shakeBadge.style.display = 'none';
   </script>
 </body>
