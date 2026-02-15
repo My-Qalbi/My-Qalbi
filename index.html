@@ -1,97 +1,217 @@
 <!doctype html>
-<html lang="en">
+<html lang="ta">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>For You ❤️</title>
   <style>
-    body { margin:0; font-family: system-ui, Arial; background:#0b0f17; color:#fff; }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 48px 20px; }
-    .card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 18px; padding: 22px; margin: 16px 0; box-shadow: 0 12px 30px rgba(0,0,0,.25); }
-    h1 { font-size: 42px; margin: 0 0 8px; }
-    .sub { opacity:.85; margin:0 0 24px; font-size: 16px; }
-    .grid { display:grid; grid-template-columns: 1fr; gap: 14px; }
-    @media (min-width: 720px){ .grid { grid-template-columns: 1fr 1fr; } }
-    button { cursor:pointer; border:0; padding: 12px 16px; border-radius: 12px;
-      background: #ff4d6d; color:#fff; font-weight:700; font-size: 15px; }
-    button:hover{ filter: brightness(1.05); }
-    .small { opacity:.8; font-size: 13px; }
-    .reveal { display:none; margin-top: 12px; }
-    .heart { color:#ff4d6d; }
-    .pill { display:inline-block; padding: 6px 10px; border-radius: 999px; background: rgba(255,77,109,.18);
-      border:1px solid rgba(255,77,109,.35); margin-top: 8px; }
-    input { width: 100%; max-width: 420px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.06); color: #fff; outline: none; }
-    .ok { color:#7CFFB2; }
-    .no { color:#ff9aa9; }
+    :root{
+      --bg:#0b0f17; --card:rgba(255,255,255,.08); --stroke:rgba(255,255,255,.12);
+      --pink:#ff4d6d; --mint:#7CFFB2;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0; font-family: system-ui, Arial;
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(255,77,109,.22), transparent 50%),
+                  radial-gradient(900px 600px at 90% 30%, rgba(124,255,178,.14), transparent 55%),
+                  var(--bg);
+      color:#fff; overflow-x:hidden;
+    }
+    .wrap{ max-width: 920px; margin: 0 auto; padding: 48px 18px 80px; position:relative; }
+    h1{ font-size: 44px; margin:0 0 8px; letter-spacing:.2px; }
+    .sub{ opacity:.88; margin:0 0 26px; font-size: 16px; }
+    .card{
+      background: var(--card); border: 1px solid var(--stroke);
+      border-radius: 18px; padding: 22px; margin: 16px 0;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+      backdrop-filter: blur(10px);
+    }
+    .grid{ display:grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 720px){ .grid{ grid-template-columns: 1fr 1fr; } }
+
+    /* ---- Animations ---- */
+    .fadeUp{
+      opacity:0; transform: translateY(18px) scale(.98);
+      animation: fadeUp .85s ease forwards;
+    }
+    .fadeUp.d2{ animation-delay:.15s; }
+    .fadeUp.d3{ animation-delay:.30s; }
+    .fadeUp.d4{ animation-delay:.45s; }
+    @keyframes fadeUp{
+      to{ opacity:1; transform: translateY(0) scale(1); }
+    }
+
+    .floaty{
+      animation: floaty 3.6s ease-in-out infinite;
+    }
+    @keyframes floaty{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-8px); }
+    }
+
+    .pulse{
+      animation: pulse 1.35s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{ transform: scale(1); }
+      50%{ transform: scale(1.05); }
+    }
+
+    .glow{
+      position: relative;
+    }
+    .glow:after{
+      content:""; position:absolute; inset:-2px;
+      border-radius: 20px;
+      background: radial-gradient(600px 120px at 30% 20%, rgba(255,77,109,.35), transparent 60%),
+                  radial-gradient(600px 120px at 70% 80%, rgba(124,255,178,.20), transparent 60%);
+      filter: blur(12px); opacity:.65; z-index:-1;
+    }
+
+    /* typing */
+    .typing{
+      display:inline-block;
+      border-right: 2px solid rgba(255,255,255,.65);
+      white-space: nowrap;
+      overflow:hidden;
+      max-width: 0;
+      animation: typing 2.2s steps(28, end) forwards, caret 0.7s step-end infinite;
+    }
+    @keyframes typing{ to{ max-width: 26ch; } }
+    @keyframes caret{ 50%{ border-color: transparent; } }
+
+    /* hearts background */
+    .hearts{
+      position:absolute; inset:0; pointer-events:none; overflow:hidden;
+    }
+    .heart{
+      position:absolute; bottom:-40px; font-size: 20px; opacity:.0;
+      animation: rise 7s linear infinite;
+      filter: drop-shadow(0 8px 14px rgba(0,0,0,.35));
+    }
+    @keyframes rise{
+      0%{ transform: translateY(0) translateX(0) scale(.85); opacity:0; }
+      10%{ opacity:.85; }
+      100%{ transform: translateY(-110vh) translateX(60px) scale(1.25); opacity:0; }
+    }
+
+    button{
+      cursor:pointer; border:0; padding: 12px 16px; border-radius: 12px;
+      background: var(--pink); color:#fff; font-weight:800; font-size: 15px;
+      transition: transform .12s ease, filter .12s ease;
+    }
+    button:hover{ filter: brightness(1.06); transform: translateY(-1px); }
+    button:active{ transform: translateY(0px) scale(.99); }
+
+    input{
+      width: 100%; max-width: 420px; padding: 12px 14px; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06); color: #fff; outline: none;
+    }
+    .small{ opacity:.85; font-size: 13px; }
+    .ok{ color: var(--mint); font-weight:700; }
+    .no{ color:#ff9aa9; font-weight:700; }
+    .reveal{ display:none; margin-top: 12px; }
+    .pill{
+      display:inline-block; padding: 6px 10px; border-radius: 999px;
+      background: rgba(255,77,109,.18);
+      border:1px solid rgba(255,77,109,.35);
+      margin-top: 8px;
+    }
+
+    /* confetti canvas */
+    #fx{
+      position:fixed; inset:0; pointer-events:none; z-index:9999;
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>Hey <span id="name">Love</span> <span class="heart">❤️</span></h1>
-    <p class="sub">I made this little website just for you. Scroll slowly 🙂</p>
+  <canvas id="fx"></canvas>
 
-    <div class="card">
+  <div class="wrap">
+    <!-- floating hearts -->
+    <div class="hearts" id="hearts"></div>
+
+    <h1 class="fadeUp glow">
+      Hey <span id="name" class="typing">My Love</span> ❤️
+    </h1>
+    <p class="sub fadeUp d2">I made this little website just for you. Scroll slowly 🙂</p>
+
+    <div class="card fadeUp d3 glow floaty">
       <h2>3 things I love about you</h2>
       <div class="grid">
-        <div class="card">
+        <div class="card fadeUp d2">
           <strong>1)</strong> <span id="love1">Your smile that fixes my bad days.</span>
           <div class="pill">Always</div>
         </div>
-        <div class="card">
+        <div class="card fadeUp d3">
           <strong>2)</strong> <span id="love2">The way you support me.</span>
           <div class="pill">Forever</div>
         </div>
-        <div class="card">
+        <div class="card fadeUp d4">
           <strong>3)</strong> <span id="love3">Your kindness to everyone.</span>
           <div class="pill">My favorite</div>
         </div>
-        <div class="card">
+        <div class="card fadeUp d4">
           <strong>Bonus:</strong> <span id="love4">You feel like home.</span>
           <div class="pill">❤️</div>
         </div>
       </div>
     </div>
 
-    <div class="card">
+    <div class="card fadeUp d4 glow">
       <h2>Memory lane</h2>
       <p>Best moment with you:</p>
       <div class="card"><span id="memory">The day we laughed nonstop and forgot the whole world.</span></div>
-      <p class="small">You can edit these lines later with your real memories.</p>
+      <p class="small">(இதை நீங்க your real memories-க்கு edit pannunga)</p>
     </div>
 
-    <div class="card">
+    <div class="card fadeUp d4 glow">
       <h2>Unlock the surprise 🔐</h2>
       <p class="small">Hint: our special word / nickname / place.</p>
       <input id="code" placeholder="Enter the secret word..." />
       <div style="margin-top:12px;">
-        <button onclick="unlock()">Unlock</button>
+        <button class="pulse" onclick="unlock()">Unlock</button>
         <span id="status" class="small" style="margin-left:10px;"></span>
       </div>
 
       <div id="reveal" class="reveal">
-        <div class="card">
+        <div class="card glow floaty">
           <h3>Surprise message ✨</h3>
           <p id="message">
-            I’m proud of you. I choose you—today, tomorrow, always.  
+            I’m proud of you. I choose you—today, tomorrow, always.
             <br><br>
             <strong>Will you go on a date with me this week?</strong> 😄
           </p>
-          <button onclick="confetti()">Tap for magic 🎉</button>
+          <button onclick="boom()">Tap for magic 🎉</button>
           <p id="magic" class="small"></p>
         </div>
       </div>
     </div>
 
-    <p class="small">Made with love. (Powered by GitHub Pages)</p>
+    <p class="small fadeUp d4">Made with love. (Powered by GitHub Pages)</p>
   </div>
 
   <script>
-    // ✅ Customize quickly here:
-    const PARTNER_NAME = "My Love";        // change
-    const SECRET = "love";                 // change (lowercase)
+    // ✅ QUICK EDIT
+    const PARTNER_NAME = "My Love";  // change
+    const SECRET = "love";           // change (lowercase)
+
     document.getElementById("name").textContent = PARTNER_NAME;
+
+    // Create floating hearts
+    const heartWrap = document.getElementById("hearts");
+    const heartEmojis = ["❤️","💖","💘","💗","💞","🫶","✨"];
+    for(let i=0;i<18;i++){
+      const s = document.createElement("div");
+      s.className = "heart";
+      s.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+      s.style.left = Math.random()*100 + "%";
+      s.style.animationDelay = (Math.random()*6) + "s";
+      s.style.fontSize = (14 + Math.random()*18) + "px";
+      s.style.opacity = 0;
+      heartWrap.appendChild(s);
+    }
 
     function unlock(){
       const v = (document.getElementById("code").value || "").trim().toLowerCase();
@@ -99,20 +219,71 @@
       if(v === SECRET){
         status.textContent = "Unlocked ✅";
         status.className = "small ok";
-        document.getElementById("reveal").style.display = "block";
-        document.getElementById("reveal").scrollIntoView({behavior:"smooth"});
+        const r = document.getElementById("reveal");
+        r.style.display = "block";
+        r.scrollIntoView({behavior:"smooth"});
+        boom(); // auto confetti
       } else {
         status.textContent = "Oops… try again 🙂";
         status.className = "small no";
       }
     }
 
-    function confetti(){
+    // confetti (canvas)
+    const canvas = document.getElementById("fx");
+    const ctx = canvas.getContext("2d");
+    let W,H,conf=[];
+    function resize(){
+      W = canvas.width = window.innerWidth * devicePixelRatio;
+      H = canvas.height = window.innerHeight * devicePixelRatio;
+      ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+    }
+    window.addEventListener("resize", resize); resize();
+
+    function boom(){
+      // emoji burst + confetti pieces
       const emojis = ["🎉","✨","💖","🥰","🌸","🫶","😍","🎊"];
       let out = "";
       for(let i=0;i<40;i++) out += emojis[Math.floor(Math.random()*emojis.length)];
       document.getElementById("magic").textContent = out;
+
+      const centerX = window.innerWidth/2;
+      const centerY = window.innerHeight/3;
+      for(let i=0;i<220;i++){
+        conf.push({
+          x:centerX, y:centerY,
+          vx:(Math.random()-0.5)*10,
+          vy:(Math.random()-1.2)*10,
+          g:0.22 + Math.random()*0.08,
+          s:2 + Math.random()*4,
+          a:1,
+          r:Math.random()*Math.PI
+        });
+      }
     }
+
+    function tick(){
+      ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+      for(let i=conf.length-1;i>=0;i--){
+        const p = conf[i];
+        p.vy += p.g;
+        p.x += p.vx;
+        p.y += p.vy;
+        p.a *= 0.985;
+        p.r += 0.08;
+
+        ctx.save();
+        ctx.globalAlpha = p.a;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.fillRect(-p.s/2, -p.s/2, p.s, p.s);
+        ctx.restore();
+
+        if(p.a < 0.05 || p.y > window.innerHeight + 50) conf.splice(i,1);
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
   </script>
 </body>
 </html>
