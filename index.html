@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>My Eternal Love</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Allura&display=swap" rel="stylesheet">
@@ -11,19 +11,18 @@
 :root{
   --pink:#ff2d75;
   --gold:#d4af37;
+  --glass:rgba(10,10,10,.72);
 }
 
 *{box-sizing:border-box}
-
 html,body{
-  margin:0;
-  height:100%;
+  margin:0; height:100%;
   background:#000;
   overflow:hidden;
   font-family:'Cormorant Garamond',serif;
   color:#fff;
+  -webkit-tap-highlight-color: transparent;
 }
-
 body{
   display:flex;
   align-items:center;
@@ -31,249 +30,407 @@ body{
   padding:20px;
 }
 
-/* ================= HEARTS ================= */
+/* ===== Hearts background ===== */
 #heart-container{
-  position:fixed;
-  inset:0;
+  position:fixed; inset:0;
   pointer-events:none;
+  overflow:hidden;
   z-index:1;
 }
-
 .heart{
   position:absolute;
   opacity:0;
-  animation:floatUp linear forwards;
+  animation: floatUp linear forwards;
   filter:drop-shadow(0 0 12px var(--pink));
 }
-
 @keyframes floatUp{
   0%{transform:translateY(110vh) scale(.8);opacity:0;}
   20%{opacity:.9;}
   100%{transform:translateY(-20vh) scale(1.3);opacity:0;}
 }
 
-/* ================= CARD ================= */
+/* ===== Card ===== */
 .card{
   position:relative;
   z-index:10;
   width:90%;
   max-width:420px;
-  padding:30px;
-  background:rgba(0,0,0,.6);
-  backdrop-filter:blur(20px);
+  padding:30px 24px;
+  background:var(--glass);
+  backdrop-filter:blur(18px);
   border-radius:30px;
-  border:1px solid rgba(212,175,55,.4);
+  border:1px solid rgba(212,175,55,.35);
   text-align:center;
   box-shadow:0 0 50px rgba(255,45,117,.25);
 }
-
 h1{
+  margin:0;
   font-size:2.4rem;
   font-weight:700;
   color:var(--gold);
   letter-spacing:1px;
 }
-
 .divider{
   height:1px;
   width:60%;
-  margin:12px auto;
+  margin:14px auto 12px;
   background:linear-gradient(90deg,transparent,var(--gold),transparent);
 }
-
 .message{
-  font-size:1.2rem;
-  font-weight:400;
-  opacity:.9;
+  margin:0;
+  font-size:1.15rem;
+  opacity:.92;
+  line-height:1.5;
 }
-
 .btn{
-  margin-top:20px;
-  padding:12px;
+  margin-top:18px;
+  padding:12px 14px;
   width:100%;
   border-radius:999px;
   border:1px solid var(--gold);
   background:transparent;
   color:var(--gold);
-  font-size:1.1rem;
+  font-size:1.05rem;
   cursor:pointer;
 }
+.btn:active{ transform:scale(.98); }
 
 .countdown{
-  margin-top:15px;
+  margin-top:16px;
   font-size:2rem;
   color:var(--pink);
   display:none;
+  font-weight:700;
 }
 
 #hiddenArea{
   display:none;
-  margin-top:15px;
-  animation:fadeIn 1s ease forwards;
+  margin-top:16px;
+  animation: fadeIn 900ms ease forwards;
 }
-
 @keyframes fadeIn{
-  from{opacity:0;transform:translateY(10px);}
-  to{opacity:1;transform:translateY(0);}
+  from{opacity:0; transform: translateY(10px);}
+  to{opacity:1; transform: translateY(0);}
 }
-
-/* Romantic Forever */
 .forever{
   font-size:1.9rem;
   font-weight:600;
-  letter-spacing:1px;
-  text-shadow:0 0 12px var(--pink);
+  letter-spacing:.8px;
+  text-shadow:0 0 14px rgba(255,45,117,.55);
 }
 
-/* ================= MAIL ================= */
-.mail-modal{
+/* ===== Mail icon overlay (heart-style popup) ===== */
+.mail-float{
+  position:fixed;
+  left:50%;
+  top:72%;
+  transform:translate(-50%,-50%);
+  z-index:50000;
+  display:none;
+  pointer-events:auto;
+}
+.mail-bubble{
+  width:74px;
+  height:74px;
+  border-radius:999px;
+  background: radial-gradient(circle at 30% 30%, rgba(255,45,117,.25), rgba(0,0,0,.7));
+  border:1px solid rgba(212,175,55,.35);
+  box-shadow: 0 0 26px rgba(255,45,117,.25);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  user-select:none;
+  animation: mailPop 750ms ease forwards, mailFloat 2.8s ease-in-out infinite;
+}
+.mail-emoji{
+  font-size:32px;
+  filter: drop-shadow(0 0 10px rgba(255,45,117,.7));
+}
+@keyframes mailPop{
+  from{opacity:0; transform: translateY(12px) scale(.75);}
+  to{opacity:1; transform: translateY(0) scale(1);}
+}
+@keyframes mailFloat{
+  0%,100%{ transform: translateY(0); }
+  50%{ transform: translateY(-10px); }
+}
+
+/* ===== Password Modal ===== */
+.modal{
   position:fixed;
   inset:0;
   display:none;
   align-items:center;
   justify-content:center;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(8px);
-  z-index:99999;
-  flex-direction:column;
+  z-index:90000;
+  background: rgba(0,0,0,.66);
+  backdrop-filter: blur(8px);
+  padding:16px;
 }
-
-.mail-box{
-  width:200px;
-  height:130px;
-  background:linear-gradient(135deg,#222,#111);
-  border-radius:15px;
-  border:1px solid rgba(212,175,55,.4);
+.modal-card{
+  width:min(92vw,380px);
+  background: rgba(10,10,10,.8);
+  border:1px solid rgba(212,175,55,.28);
+  border-radius:24px;
+  box-shadow:0 0 45px rgba(255,45,117,.18);
+  padding:18px 16px 16px;
+  text-align:center;
+  position:relative;
+}
+.modal-title{
+  margin:0 0 10px;
+  color:var(--gold);
+  font-size:1.25rem;
+  letter-spacing:.6px;
+}
+.modal-sub{
+  margin:0 0 12px;
+  font-size:.95rem;
+  opacity:.75;
+}
+.pw-row{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
+  gap:10px;
+  margin-top:8px;
+}
+.pw{
+  flex:1;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid rgba(212,175,55,.25);
+  background: rgba(255,255,255,.06);
+  color:#fff;
+  font-size:1rem;
+  outline:none;
+}
+.pw::placeholder{ color: rgba(255,255,255,.45); }
+.pw-btn{
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(212,175,55,.45);
+  background: rgba(212,175,55,.12);
+  color:#fff;
   cursor:pointer;
 }
+.pw-btn:active{ transform: scale(.98); }
 
-.lock{
-  font-size:28px;
+.close-x{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:36px;
+  height:36px;
+  border-radius:999px;
+  border:1px solid rgba(212,175,55,.25);
+  background: rgba(0,0,0,.35);
+  color:#fff;
+  cursor:pointer;
+}
+.close-x:active{ transform: scale(.98); }
+
+.err{
+  margin-top:10px;
+  font-size:.95rem;
+  color: rgba(255,120,170,.95);
+  display:none;
+}
+.shake{
+  animation: shake 380ms ease;
+}
+@keyframes shake{
+  0%,100%{ transform: translateX(0); }
+  25%{ transform: translateX(-6px); }
+  50%{ transform: translateX(6px); }
+  75%{ transform: translateX(-4px); }
 }
 
-.mail-text{
-  font-size:13px;
-  opacity:.8;
-}
-
+/* ===== Luv You Reveal ===== */
 .luv{
   display:none;
+  margin-top:14px;
   font-family:'Allura',cursive;
-  font-size:3rem;
+  font-size:3.1rem;
   color:#fff;
-  margin-top:20px;
-  text-shadow:
-    0 0 15px var(--pink),
-    0 0 30px var(--gold);
-  animation:pop 1s ease forwards;
+  text-shadow:0 0 16px rgba(255,45,117,.65), 0 0 30px rgba(212,175,55,.35);
+  animation: luvPop 900ms ease forwards;
 }
-
-@keyframes pop{
-  from{opacity:0;transform:scale(.7);}
-  to{opacity:1;transform:scale(1);}
+@keyframes luvPop{
+  from{opacity:0; transform: translateY(8px) scale(.85);}
+  to{opacity:1; transform: translateY(0) scale(1);}
 }
 </style>
 </head>
 
 <body>
+  <div id="heart-container"></div>
 
-<div id="heart-container"></div>
+  <div class="card">
+    <h1>Ya Habibi</h1>
+    <div class="divider"></div>
 
-<div class="card">
-  <h1>Ya Habibi</h1>
-  <div class="divider"></div>
+    <p class="message">In every heartbeat, I find another reason to love you.</p>
 
-  <p class="message">
-    In every heartbeat, I find another reason to love you.
-  </p>
+    <button class="btn" id="revealBtn" type="button">Discover My Soul</button>
+    <div class="countdown" id="countdown">10</div>
 
-  <button class="btn" id="revealBtn">Discover My Soul</button>
-  <div class="countdown" id="countdown">10</div>
-
-  <div id="hiddenArea">
-    <div class="forever">Always Yours, Forever 💖</div>
-    <p style="font-size:13px;opacity:.7;">Shake phone for secret mail</p>
+    <div id="hiddenArea">
+      <div class="forever">Always Yours, Forever 💖</div>
+      <p style="margin:8px 0 0; font-size:13px; opacity:.75;">
+        Tap the floating mail 💌
+      </p>
+    </div>
   </div>
-</div>
 
-<div class="mail-modal" id="mailModal">
-  <div class="mail-box" id="mailBox">
-    <div class="lock">🔒</div>
-    <div class="mail-text">Tap to Unlock</div>
+  <!-- Floating Mail icon -->
+  <div class="mail-float" id="mailFloat">
+    <div class="mail-bubble" id="mailBubble" role="button" aria-label="Open mail">
+      <div class="mail-emoji">💌</div>
+    </div>
   </div>
-  <div class="luv" id="luvText">Luv You 💖</div>
-</div>
+
+  <!-- Password modal -->
+  <div class="modal" id="pwModal" aria-hidden="true">
+    <div class="modal-card" id="modalCard">
+      <button class="close-x" id="modalClose" type="button">✕</button>
+      <p class="modal-title">Locked Mail 🔒</p>
+      <p class="modal-sub">Enter the secret password to unlock</p>
+
+      <div class="pw-row">
+        <input class="pw" id="pwInput" type="password" inputmode="numeric" placeholder="Password" />
+        <button class="pw-btn" id="pwBtn" type="button">Unlock</button>
+      </div>
+
+      <div class="err" id="pwErr">Wrong password 😅 Try again</div>
+      <div class="luv" id="luvText">Luv You 💖</div>
+    </div>
+  </div>
 
 <script>
-const container=document.getElementById("heart-container");
-const revealBtn=document.getElementById("revealBtn");
-const hiddenArea=document.getElementById("hiddenArea");
-const countdown=document.getElementById("countdown");
-const mailModal=document.getElementById("mailModal");
-const mailBox=document.getElementById("mailBox");
-const luvText=document.getElementById("luvText");
+/* ===== SETTINGS ===== */
+const SECRET_PASSWORD = "143"; // ✅ change here
 
-/* Fast start, slow move hearts */
+/* ===== Helpers ===== */
+function vibe(p){ if(navigator.vibrate) navigator.vibrate(p); }
+
+/* ===== Hearts fast start, slow move ===== */
+const container = document.getElementById("heart-container");
+const COLORS = ["#ff2d75","#ff758c","#d4af37"];
+
 function createHeart(){
-  const heart=document.createElement("div");
-  heart.className="heart";
-  heart.textContent="❤";
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.fontSize=(Math.random()*18+12)+"px";
-  heart.style.animationDuration=(Math.random()*10+18)+"s"; // slow movement
-  heart.style.color=["#ff2d75","#ff758c","#d4af37"][Math.floor(Math.random()*3)];
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.textContent = "❤";
+  heart.style.left = (Math.random()*100) + "vw";
+  heart.style.fontSize = (Math.random()*18 + 12) + "px";
+  heart.style.color = COLORS[Math.floor(Math.random()*COLORS.length)];
+  heart.style.animationDuration = (Math.random()*10 + 18) + "s"; // 18–28 sec slow move
   container.appendChild(heart);
-  heart.addEventListener("animationend",()=>heart.remove());
+  heart.addEventListener("animationend", ()=>heart.remove());
 }
-setInterval(createHeart,400); // fast start
+setInterval(createHeart, 450); // fast start
 
-/* Countdown */
-let revealed=false;
-revealBtn.onclick=()=>{
+/* ===== Timer -> Message -> Mail icon popup ===== */
+const revealBtn = document.getElementById("revealBtn");
+const countdown = document.getElementById("countdown");
+const hiddenArea = document.getElementById("hiddenArea");
+const mailFloat = document.getElementById("mailFloat");
+
+let revealed = false;
+
+revealBtn.addEventListener("click", ()=>{
   if(revealed) return;
-  revealBtn.style.display="none";
-  countdown.style.display="block";
 
-  let sec=10;
-  countdown.textContent=sec;
+  revealBtn.style.display = "none";
+  countdown.style.display = "block";
 
-  const timer=setInterval(()=>{
+  let sec = 10;
+  countdown.textContent = sec;
+
+  const t = setInterval(()=>{
     sec--;
-    countdown.textContent=sec;
-    if(sec<=0){
-      clearInterval(timer);
-      countdown.style.display="none";
-      hiddenArea.style.display="block";
-      revealed=true;
-    }
-  },1000);
-};
+    countdown.textContent = sec;
 
-/* Shake -> Mailbox */
-let lastShake=0;
-window.addEventListener("devicemotion",(e)=>{
-  if(!revealed) return;
-  const a=e.accelerationIncludingGravity;
-  if(!a) return;
-  const mag=Math.sqrt(a.x*a.x+a.y*a.y+a.z*a.z);
-  if(mag>16 && Date.now()-lastShake>1500){
-    lastShake=Date.now();
-    mailModal.style.display="flex";
-    if(navigator.vibrate) navigator.vibrate([60,40,60]);
-  }
+    if(sec <= 0){
+      clearInterval(t);
+      countdown.style.display = "none";
+      hiddenArea.style.display = "block";
+      revealed = true;
+      vibe([50,30,50]);
+
+      // ✅ show floating mail after message
+      setTimeout(()=>{
+        mailFloat.style.display = "block";
+        vibe(30);
+      }, 600);
+    }
+  }, 1000);
 });
 
-/* Unlock mail */
-mailBox.onclick=()=>{
-  mailBox.style.display="none";
-  luvText.style.display="block";
-  if(navigator.vibrate) navigator.vibrate([80,40,80]);
-};
-</script>
+/* ===== Mail click -> Password modal ===== */
+const mailBubble = document.getElementById("mailBubble");
+const pwModal = document.getElementById("pwModal");
+const modalCard = document.getElementById("modalCard");
+const modalClose = document.getElementById("modalClose");
+const pwInput = document.getElementById("pwInput");
+const pwBtn = document.getElementById("pwBtn");
+const pwErr = document.getElementById("pwErr");
+const luvText = document.getElementById("luvText");
 
+function openModal(){
+  pwModal.style.display = "flex";
+  pwModal.setAttribute("aria-hidden","false");
+  pwInput.value = "";
+  pwErr.style.display = "none";
+  luvText.style.display = "none";
+  pwInput.disabled = false;
+  pwBtn.disabled = false;
+  pwInput.focus();
+  vibe([40,30,40]);
+}
+function closeModal(){
+  pwModal.style.display = "none";
+  pwModal.setAttribute("aria-hidden","true");
+}
+
+mailBubble.addEventListener("click", ()=>{
+  openModal();
+});
+
+modalClose.addEventListener("click", closeModal);
+pwModal.addEventListener("click", (e)=>{
+  if(e.target === pwModal) closeModal();
+});
+
+function wrong(){
+  pwErr.style.display = "block";
+  modalCard.classList.remove("shake");
+  void modalCard.offsetWidth;
+  modalCard.classList.add("shake");
+  vibe([60,30,60]);
+}
+
+function unlock(){
+  const val = (pwInput.value || "").trim();
+  if(val !== SECRET_PASSWORD){
+    wrong();
+    return;
+  }
+  // success
+  pwErr.style.display = "none";
+  pwInput.disabled = true;
+  pwBtn.disabled = true;
+  luvText.style.display = "block";
+  vibe([80,40,80]);
+
+  // hide floating mail after unlock (optional)
+  setTimeout(()=>{ mailFloat.style.display = "none"; }, 800);
+}
+
+pwBtn.addEventListener("click", unlock);
+pwInput.addEventListener("keydown", (e)=>{
+  if(e.key === "Enter") unlock();
+});
+</script>
 </body>
 </html>
