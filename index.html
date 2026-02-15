@@ -42,6 +42,9 @@ body{
   opacity:0;
   animation: floatUp linear forwards;
   filter:drop-shadow(0 0 12px var(--pink));
+  pointer-events:auto;           /* ✅ clickable */
+  cursor:pointer;
+  user-select:none;
 }
 @keyframes floatUp{
   0%{transform:translateY(110vh) scale(.8);opacity:0;}
@@ -259,6 +262,25 @@ h1{
   from{opacity:0; transform: translateY(8px) scale(.85);}
   to{opacity:1; transform: translateY(0) scale(1);}
 }
+
+/* ===== Word pop on heart click ===== */
+.pop-love{
+  position:fixed;
+  z-index:99999;
+  pointer-events:none;
+  transform: translate(-50%,-50%);
+  font-family:'Allura',cursive;
+  font-size:30px;
+  color:#fff;
+  text-shadow: 0 0 14px rgba(255,45,117,.7), 0 0 22px rgba(212,175,55,.35);
+  animation: popWord .9s forwards;
+  white-space:nowrap;
+}
+@keyframes popWord{
+  0%{opacity:0; transform:translate(-50%,-50%) scale(.85);}
+  30%{opacity:1;}
+  100%{opacity:0; transform:translate(-50%,-85%) scale(1.1);}
+}
 </style>
 </head>
 
@@ -266,7 +288,7 @@ h1{
   <div id="heart-container"></div>
 
   <div class="card">
-    <h1>Ya Habibi</h1>
+    <h1>Sappiii</h1>
     <div class="divider"></div>
 
     <p class="message">In every heartbeat, I find another reason to love you.</p>
@@ -308,14 +330,25 @@ h1{
 
 <script>
 /* ===== SETTINGS ===== */
-const SECRET_PASSWORD = "143"; // ✅ change here
+const SECRET_PASSWORD = "sooru"; // ✅ change here
 
 /* ===== Helpers ===== */
 function vibe(p){ if(navigator.vibrate) navigator.vibrate(p); }
 
-/* ===== Hearts fast start, slow move ===== */
+/* ===== Hearts fast start, slow move + CLICK WORDS ===== */
 const container = document.getElementById("heart-container");
 const COLORS = ["#ff2d75","#ff758c","#d4af37"];
+const WORDS  = ["Mailu","Chellakutty","Prangun"];
+
+function popWord(x,y){
+  const pop = document.createElement("div");
+  pop.className = "pop-love";
+  pop.textContent = WORDS[Math.floor(Math.random()*WORDS.length)];
+  pop.style.left = x + "px";
+  pop.style.top  = y + "px";
+  document.body.appendChild(pop);
+  setTimeout(()=>pop.remove(), 900);
+}
 
 function createHeart(){
   const heart = document.createElement("div");
@@ -325,6 +358,12 @@ function createHeart(){
   heart.style.fontSize = (Math.random()*18 + 12) + "px";
   heart.style.color = COLORS[Math.floor(Math.random()*COLORS.length)];
   heart.style.animationDuration = (Math.random()*10 + 18) + "s"; // 18–28 sec slow move
+
+  heart.addEventListener("pointerdown", (e)=>{
+    popWord(e.clientX, e.clientY);
+    vibe(15);
+  }, { passive:true });
+
   container.appendChild(heart);
   heart.addEventListener("animationend", ()=>heart.remove());
 }
@@ -358,7 +397,6 @@ revealBtn.addEventListener("click", ()=>{
       revealed = true;
       vibe([50,30,50]);
 
-      // ✅ show floating mail after message
       setTimeout(()=>{
         mailFloat.style.display = "block";
         vibe(30);
@@ -393,10 +431,7 @@ function closeModal(){
   pwModal.setAttribute("aria-hidden","true");
 }
 
-mailBubble.addEventListener("click", ()=>{
-  openModal();
-});
-
+mailBubble.addEventListener("click", openModal);
 modalClose.addEventListener("click", closeModal);
 pwModal.addEventListener("click", (e)=>{
   if(e.target === pwModal) closeModal();
@@ -416,14 +451,12 @@ function unlock(){
     wrong();
     return;
   }
-  // success
   pwErr.style.display = "none";
   pwInput.disabled = true;
   pwBtn.disabled = true;
   luvText.style.display = "block";
   vibe([80,40,80]);
 
-  // hide floating mail after unlock (optional)
   setTimeout(()=>{ mailFloat.style.display = "none"; }, 800);
 }
 
