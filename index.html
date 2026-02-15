@@ -13,6 +13,7 @@
   --gold:#d4af37;
   --glass:rgba(10,10,10,.7);
 }
+
 *{box-sizing:border-box}
 
 html,body{
@@ -121,9 +122,7 @@ h1{
   letter-spacing:1.5px;
 }
 
-.btn:active{
-  transform:scale(.98);
-}
+.btn:active{ transform:scale(.98); }
 
 /* Countdown styling */
 .countdown{
@@ -146,7 +145,7 @@ h1{
   to{opacity:1;transform:translateY(0);}
 }
 
-/* 🔥 Premium Forever Text */
+/* Premium Forever Text */
 .forever-text{
   font-family:'Playfair Display',serif;
   font-size:1.9rem;
@@ -169,6 +168,7 @@ h1{
   pointer-events:none;
   transform:translate(-50%,-50%);
   z-index:9999;
+  white-space:nowrap;
 }
 
 @keyframes popLove{
@@ -177,7 +177,7 @@ h1{
   100%{opacity:0;transform:translate(-50%,-80%) scale(1.2);}
 }
 
-/* Secret overlay */
+/* Secret overlay (shake) */
 .secret-overlay{
   position:fixed;
   inset:0;
@@ -208,36 +208,184 @@ h1{
   20%{opacity:1;}
   100%{transform:translateY(-20vh);opacity:0;}
 }
+
+/* =========================
+   ✅ MAIL BOX POPUP (NEW)
+   ========================= */
+.mail-modal{
+  position:fixed;
+  inset:0;
+  z-index:100000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(8px);
+  padding: 18px;
+}
+
+.mail-card{
+  width: min(92vw, 360px);
+  background: rgba(10,10,10,.78);
+  border: 1px solid rgba(212,175,55,.28);
+  border-radius: 26px;
+  box-shadow: 0 0 40px rgba(255,45,117,.18);
+  padding: 18px 16px 14px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.mail-title{
+  font-family:'Playfair Display',serif;
+  font-size: 1.25rem;
+  color: var(--gold);
+  margin: 0 0 10px;
+  text-shadow: 0 0 14px rgba(212,175,55,.25);
+}
+
+.mail-close{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:34px;
+  height:34px;
+  border-radius:999px;
+  border:1px solid rgba(212,175,55,.35);
+  background: rgba(0,0,0,.35);
+  color:#fff;
+  cursor:pointer;
+}
+
+.mail-close:active{ transform:scale(.98); }
+
+.envelope-wrap{
+  width: 170px;
+  height: 120px;
+  margin: 8px auto 10px;
+  position:relative;
+  cursor:pointer;
+  user-select:none;
+}
+
+.envelope{
+  position:absolute;
+  inset:0;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border: 1px solid rgba(212,175,55,.22);
+  box-shadow: 0 0 26px rgba(255,45,117,.14);
+  overflow:hidden;
+}
+
+.env-top{
+  position:absolute;
+  left:0; right:0;
+  top:0;
+  height: 60%;
+  background: linear-gradient(135deg, rgba(255,45,117,.22), rgba(212,175,55,.10));
+  transform-origin: top;
+  transform: rotateX(0deg);
+  clip-path: polygon(0 0, 100% 0, 50% 80%);
+  transition: transform 600ms ease;
+}
+
+.env-bottom{
+  position:absolute;
+  left:0; right:0;
+  bottom:0;
+  height: 55%;
+  background: rgba(255,255,255,.06);
+  clip-path: polygon(0 100%, 50% 20%, 100% 100%, 100% 0, 0 0);
+}
+
+.lock-badge{
+  position:absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%,-50%);
+  background: rgba(0,0,0,.45);
+  border: 1px solid rgba(212,175,55,.35);
+  border-radius: 999px;
+  padding: 8px 10px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  box-shadow: 0 0 18px rgba(212,175,55,.12);
+}
+
+.lock-icon{
+  font-size: 18px;
+}
+
+.lock-text{
+  font-size: 12px;
+  color: rgba(255,255,255,.9);
+  letter-spacing: .6px;
+}
+
+.mail-hint{
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: rgba(255,255,255,.75);
+}
+
+.luv{
+  display:none;
+  margin-top: 8px;
+  font-family:'Dancing Script',cursive;
+  font-size: 2.2rem;
+  color:#fff;
+  text-shadow: 0 0 16px rgba(255,45,117,.6), 0 0 26px rgba(212,175,55,.35);
+  animation: luvPop 900ms ease forwards;
+}
+
+@keyframes luvPop{
+  0%{opacity:0; transform: translateY(10px) scale(.9);}
+  30%{opacity:1; transform: translateY(0) scale(1.05);}
+  100%{opacity:1; transform: translateY(0) scale(1);}
+}
+
+.envelope-wrap.unlocked .env-top{
+  transform: rotateX(180deg);
+}
+.envelope-wrap.unlocked .lock-badge{
+  opacity:0;
+  transform: translate(-50%,-50%) scale(.9);
+  transition: 280ms ease;
+}
+.envelope-wrap.shake{
+  animation: shake 350ms ease;
+}
+@keyframes shake{
+  0%,100%{ transform: translateX(0); }
+  25%{ transform: translateX(-6px); }
+  50%{ transform: translateX(6px); }
+  75%{ transform: translateX(-4px); }
+}
 </style>
 </head>
 
 <body>
-
 <div id="heart-container"></div>
 
 <div class="card">
   <div class="profile-wrapper">
-    <img src="https://i.pinimg.com/736x/8d/f3/d3/8df3d31481b2c454e95d5c7f89b917c0.jpg">
+    <img src="https://i.pinimg.com/736x/8d/f3/d3/8df3d31481b2c454e95d5c7f89b917c0.jpg" alt="Anime Couple">
   </div>
 
   <h1>يا حبيبي</h1>
   <div class="divider"></div>
 
-  <p class="message">
-    "In every heartbeat, I find another reason to love you."
-  </p>
+  <p class="message">"In every heartbeat, I find another reason to love you."</p>
 
-  <button class="btn" id="revealBtn">Discover My Soul 🔒</button>
+  <button class="btn" id="revealBtn">Discover My Soul</button>
 
   <div class="countdown" id="countdown">10</div>
 
   <div id="hiddenArea">
-    <div class="forever-text">
-      Always Yours, Forever 💖
-    </div>
-    <div style="font-size:13px;color:#ccc;margin-top:6px;">
-      📱 Shake phone for secret surprise
-    </div>
+    <div class="forever-text">Always Yours, Forever 💖</div>
+    <div style="font-size:13px;color:#ccc;margin-top:6px;">📱 Shake phone for secret surprise</div>
   </div>
 </div>
 
@@ -245,52 +393,193 @@ h1{
   <div class="secret-text">You are my forever 💖</div>
 </div>
 
+<!-- ✅ Mailbox popup (NEW) -->
+<div class="mail-modal" id="mailModal" aria-hidden="true">
+  <div class="mail-card">
+    <button class="mail-close" id="mailClose" type="button">✕</button>
+    <p class="mail-title">A tiny message for you 💌</p>
+
+    <div class="envelope-wrap" id="envelopeWrap" role="button" aria-label="Locked letter">
+      <div class="envelope">
+        <div class="env-top"></div>
+        <div class="env-bottom"></div>
+      </div>
+
+      <div class="lock-badge" id="lockBadge">
+        <span class="lock-icon">🔒</span>
+        <span class="lock-text">LOCKED</span>
+      </div>
+    </div>
+
+    <p class="mail-hint" id="mailHint">Tap the mail to unlock…</p>
+    <div class="luv" id="luvText">Luv You 💖</div>
+  </div>
+</div>
+
 <script>
-const container=document.getElementById("heart-container");
-const revealBtn=document.getElementById("revealBtn");
-const hiddenArea=document.getElementById("hiddenArea");
-const countdown=document.getElementById("countdown");
-const overlay=document.getElementById("secretOverlay");
+const container = document.getElementById("heart-container");
+const revealBtn  = document.getElementById("revealBtn");
+const hiddenArea = document.getElementById("hiddenArea");
+const countdown  = document.getElementById("countdown");
+const overlay    = document.getElementById("secretOverlay");
 
-const COLORS=["#ff2d75","#ff758c","#d4af37"];
+const mailModal   = document.getElementById("mailModal");
+const mailClose   = document.getElementById("mailClose");
+const envelopeWrap= document.getElementById("envelopeWrap");
+const luvText     = document.getElementById("luvText");
+const mailHint    = document.getElementById("mailHint");
 
-/* Ultra slow floating hearts */
-function createHeart(){
-  const heart=document.createElement("div");
-  heart.className="heart";
-  heart.textContent="❤";
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.fontSize=(Math.random()*18+12)+"px";
-  heart.style.animationDuration=(Math.random()*10+20)+"s";
-  heart.style.color=COLORS[Math.floor(Math.random()*3)];
-  container.appendChild(heart);
-  heart.addEventListener("animationend",()=>heart.remove());
+const WORDS  = ["Mailu","Chellakutty","Prangun"];
+const COLORS = ["#ff2d75","#ff758c","#d4af37"];
+
+/* Vibrate helper */
+function vibe(pattern){
+  if(navigator.vibrate) navigator.vibrate(pattern);
 }
-setInterval(createHeart,1500);
 
-/* Countdown reveal */
-let revealed=false;
-revealBtn.addEventListener("click",()=>{
+/* Slow floating hearts + click words */
+function createHeart(){
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.textContent = "❤";
+  heart.style.left = Math.random()*100 + "vw";
+  heart.style.fontSize = (Math.random()*18 + 12) + "px";
+  heart.style.animationDuration = (Math.random()*10 + 20) + "s";
+  heart.style.color = COLORS[Math.floor(Math.random()*3)];
+
+  heart.addEventListener("pointerdown", (e)=>{
+    const pop = document.createElement("div");
+    pop.className = "pop-love";
+    pop.textContent = WORDS[Math.floor(Math.random()*WORDS.length)];
+    pop.style.left = e.clientX + "px";
+    pop.style.top  = e.clientY + "px";
+    document.body.appendChild(pop);
+    setTimeout(()=>pop.remove(), 900);
+  }, { passive:true });
+
+  container.appendChild(heart);
+  heart.addEventListener("animationend", ()=>heart.remove());
+}
+setInterval(createHeart, 1500);
+
+/* 10 Second Countdown Reveal */
+let revealed = false;
+revealBtn.addEventListener("click", ()=>{
   if(revealed) return;
-  revealBtn.style.display="none";
-  countdown.style.display="block";
 
-  let seconds=10;
-  countdown.textContent=seconds;
+  revealBtn.style.display = "none";
+  countdown.style.display = "block";
 
-  const timer=setInterval(()=>{
+  let seconds = 10;
+  countdown.textContent = seconds;
+
+  const timer = setInterval(()=>{
     seconds--;
-    countdown.textContent=seconds;
+    countdown.textContent = seconds;
 
-    if(seconds<=0){
+    if(seconds <= 0){
       clearInterval(timer);
-      countdown.style.display="none";
-      hiddenArea.style.display="block";
-      revealed=true;
-    }
-  },1000);
-});
-</script>
+      countdown.style.display = "none";
+      hiddenArea.style.display = "block";
+      revealed = true;
 
+      vibe([50,30,50]);
+
+      // ✅ After reveal -> show mailbox popup
+      setTimeout(()=> openMailPopup(), 450);
+    }
+  }, 1000);
+});
+
+/* ✅ Mail popup logic */
+let mailUnlocked = false;
+
+function openMailPopup(){
+  // reset state every time open
+  mailUnlocked = false;
+  envelopeWrap.classList.remove("unlocked");
+  luvText.style.display = "none";
+  mailHint.textContent = "Tap the mail to unlock…";
+
+  mailModal.style.display = "flex";
+  mailModal.setAttribute("aria-hidden", "false");
+  vibe([40,30,40]);
+}
+
+function closeMailPopup(){
+  mailModal.style.display = "none";
+  mailModal.setAttribute("aria-hidden", "true");
+}
+
+mailClose.addEventListener("click", closeMailPopup);
+mailModal.addEventListener("click", (e)=>{
+  if(e.target === mailModal) closeMailPopup();
+});
+
+envelopeWrap.addEventListener("click", ()=>{
+  if(mailUnlocked) return;
+
+  // little shake feedback
+  envelopeWrap.classList.add("shake");
+  setTimeout(()=>envelopeWrap.classList.remove("shake"), 380);
+
+  // unlock
+  mailUnlocked = true;
+  envelopeWrap.classList.add("unlocked");
+  vibe([60,40,60]);
+
+  // show text
+  setTimeout(()=>{
+    luvText.style.display = "block";
+    mailHint.textContent = "Unlocked ✅";
+  }, 380);
+});
+
+/* Shake Secret Overlay */
+let lastShake = 0;
+
+window.addEventListener("devicemotion", (e)=>{
+  if(!revealed) return;
+
+  const a = e.accelerationIncludingGravity;
+  if(!a) return;
+
+  const mag = Math.sqrt((a.x||0)**2 + (a.y||0)**2 + (a.z||0)**2);
+
+  if(mag > 16 && Date.now() - lastShake > 1500){
+    lastShake = Date.now();
+    showSecretOverlay();
+  }
+});
+
+function showSecretOverlay(){
+  overlay.style.display = "flex";
+  startOverlayHearts();
+  vibe([60,40,60]);
+
+  setTimeout(()=>{
+    overlay.style.display = "none";
+  }, 10000);
+}
+
+function startOverlayHearts(){
+  let count = 0;
+  const interval = setInterval(()=>{
+    if(count > 60){ clearInterval(interval); return; }
+
+    const h = document.createElement("div");
+    h.className = "overlay-heart";
+    h.textContent = "❤";
+    h.style.left = Math.random()*100 + "vw";
+    h.style.color = COLORS[Math.floor(Math.random()*3)];
+    h.style.fontSize = (Math.random()*16 + 16) + "px";
+    h.style.animationDuration = (Math.random()*5 + 7) + "s";
+
+    overlay.appendChild(h);
+    h.addEventListener("animationend", ()=>h.remove());
+    count++;
+  }, 180);
+}
+</script>
 </body>
 </html>
