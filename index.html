@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You ❤️</title>
+  <style>
+    body { margin:0; font-family: system-ui, Arial; background:#0b0f17; color:#fff; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 48px 20px; }
+    .card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px; padding: 22px; margin: 16px 0; box-shadow: 0 12px 30px rgba(0,0,0,.25); }
+    h1 { font-size: 42px; margin: 0 0 8px; }
+    .sub { opacity:.85; margin:0 0 24px; font-size: 16px; }
+    .grid { display:grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 720px){ .grid { grid-template-columns: 1fr 1fr; } }
+    button { cursor:pointer; border:0; padding: 12px 16px; border-radius: 12px;
+      background: #ff4d6d; color:#fff; font-weight:700; font-size: 15px; }
+    button:hover{ filter: brightness(1.05); }
+    .small { opacity:.8; font-size: 13px; }
+    .reveal { display:none; margin-top: 12px; }
+    .heart { color:#ff4d6d; }
+    .pill { display:inline-block; padding: 6px 10px; border-radius: 999px; background: rgba(255,77,109,.18);
+      border:1px solid rgba(255,77,109,.35); margin-top: 8px; }
+    input { width: 100%; max-width: 420px; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06); color: #fff; outline: none; }
+    .ok { color:#7CFFB2; }
+    .no { color:#ff9aa9; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Hey <span id="name">Love</span> <span class="heart">❤️</span></h1>
+    <p class="sub">I made this little website just for you. Scroll slowly 🙂</p>
+
+    <div class="card">
+      <h2>3 things I love about you</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>1)</strong> <span id="love1">Your smile that fixes my bad days.</span>
+          <div class="pill">Always</div>
+        </div>
+        <div class="card">
+          <strong>2)</strong> <span id="love2">The way you support me.</span>
+          <div class="pill">Forever</div>
+        </div>
+        <div class="card">
+          <strong>3)</strong> <span id="love3">Your kindness to everyone.</span>
+          <div class="pill">My favorite</div>
+        </div>
+        <div class="card">
+          <strong>Bonus:</strong> <span id="love4">You feel like home.</span>
+          <div class="pill">❤️</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Memory lane</h2>
+      <p>Best moment with you:</p>
+      <div class="card"><span id="memory">The day we laughed nonstop and forgot the whole world.</span></div>
+      <p class="small">You can edit these lines later with your real memories.</p>
+    </div>
+
+    <div class="card">
+      <h2>Unlock the surprise 🔐</h2>
+      <p class="small">Hint: our special word / nickname / place.</p>
+      <input id="code" placeholder="Enter the secret word..." />
+      <div style="margin-top:12px;">
+        <button onclick="unlock()">Unlock</button>
+        <span id="status" class="small" style="margin-left:10px;"></span>
+      </div>
+
+      <div id="reveal" class="reveal">
+        <div class="card">
+          <h3>Surprise message ✨</h3>
+          <p id="message">
+            I’m proud of you. I choose you—today, tomorrow, always.  
+            <br><br>
+            <strong>Will you go on a date with me this week?</strong> 😄
+          </p>
+          <button onclick="confetti()">Tap for magic 🎉</button>
+          <p id="magic" class="small"></p>
+        </div>
+      </div>
+    </div>
+
+    <p class="small">Made with love. (Powered by GitHub Pages)</p>
+  </div>
+
+  <script>
+    // ✅ Customize quickly here:
+    const PARTNER_NAME = "My Love";        // change
+    const SECRET = "love";                 // change (lowercase)
+    document.getElementById("name").textContent = PARTNER_NAME;
+
+    function unlock(){
+      const v = (document.getElementById("code").value || "").trim().toLowerCase();
+      const status = document.getElementById("status");
+      if(v === SECRET){
+        status.textContent = "Unlocked ✅";
+        status.className = "small ok";
+        document.getElementById("reveal").style.display = "block";
+        document.getElementById("reveal").scrollIntoView({behavior:"smooth"});
+      } else {
+        status.textContent = "Oops… try again 🙂";
+        status.className = "small no";
+      }
+    }
+
+    function confetti(){
+      const emojis = ["🎉","✨","💖","🥰","🌸","🫶","😍","🎊"];
+      let out = "";
+      for(let i=0;i<40;i++) out += emojis[Math.floor(Math.random()*emojis.length)];
+      document.getElementById("magic").textContent = out;
+    }
+  </script>
+</body>
+</html>
