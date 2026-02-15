@@ -1,244 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>My Eternal Love</title>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@1&family=Dancing+Script:wght@700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --neon-pink: #ff2d75;
-      --gold: #d4af37;
-      --glass: rgba(10, 10, 10, 0.7);
+    :root{
+      --neon-pink:#ff2d75;
+      --gold:#d4af37;
+      --glass:rgba(10,10,10,.70);
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      font-family: 'Montserrat', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      color: white;
-      touch-action: none;
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0; padding:0;
+      width:100%; height:100%;
+      background:#000;
+      font-family:'Montserrat',sans-serif;
+      overflow:hidden;
+      color:#fff;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Animated Heart Particles Background (clickable) */
-    #heart-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: auto;
-      overflow: hidden;
+    /* ✅ Mobile-friendly layout: not hard-centered, uses safe padding */
+    body{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:
+        calc(16px + env(safe-area-inset-top))
+        14px
+        calc(18px + env(safe-area-inset-bottom))
+        14px;
+      touch-action: manipulation;
     }
 
-    .heart {
-      position: absolute;
-      color: var(--neon-pink);
+    /* Background hearts (clickable) */
+    #heart-container{
+      position:fixed; inset:0;
+      z-index:1;
+      pointer-events:auto;
+      overflow:hidden;
+    }
+
+    .heart{
+      position:absolute;
+      color:var(--neon-pink);
       filter: drop-shadow(0 0 10px var(--neon-pink));
       animation: moveUp linear forwards;
-      opacity: 0;
+      opacity:0;
       will-change: transform, opacity;
-      user-select: none;
-      pointer-events: auto;
-      cursor: pointer;
+      user-select:none;
+      pointer-events:auto;
+      cursor:pointer;
     }
 
-    @keyframes moveUp {
-      0% { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
-      20% { opacity: 0.7; }
-      100% { transform: translateY(-20vh) rotate(360deg) scale(1.2); opacity: 0; }
+    @keyframes moveUp{
+      0%   { transform: translateY(110vh) rotate(0deg)   scale(.55); opacity:0; }
+      20%  { opacity:.75; }
+      100% { transform: translateY(-20vh) rotate(360deg) scale(1.2); opacity:0; }
     }
 
-    /* Pop text animation (Mailu/Chellakutty/Prangun) */
-    .pop-love {
-      position: fixed;
-      z-index: 9999;
-      font-family: 'Dancing Script', cursive;
+    /* Pop text */
+    .pop-love{
+      position:fixed;
+      z-index:9999;
+      font-family:'Dancing Script',cursive;
       font-size: 28px;
-      color: var(--gold);
-      text-shadow:
-        0 0 12px rgba(212,175,55,.55),
-        0 0 18px rgba(255,45,117,.35);
-      transform: translate(-50%, -50%) scale(.9);
-      opacity: 0;
+      color:var(--gold);
+      text-shadow: 0 0 12px rgba(212,175,55,.55), 0 0 18px rgba(255,45,117,.35);
+      transform: translate(-50%,-50%) scale(.9);
+      opacity:0;
       animation: popLove .95s ease forwards;
-      pointer-events: none;
-      white-space: nowrap;
-      letter-spacing: .2px;
+      pointer-events:none;
+      white-space:nowrap;
     }
-
-    @keyframes popLove {
-      0%   { opacity:0; transform: translate(-50%, -50%) scale(.85) translateY(10px); }
-      25%  { opacity:1; transform: translate(-50%, -50%) scale(1.14) translateY(0); }
+    @keyframes popLove{
+      0%   { opacity:0; transform: translate(-50%,-50%) scale(.85) translateY(10px); }
+      25%  { opacity:1; transform: translate(-50%,-50%) scale(1.14) translateY(0); }
       70%  { opacity:.95; }
-      100% { opacity:0; transform: translate(-50%, -50%) scale(1.02) translateY(-26px); }
+      100% { opacity:0; transform: translate(-50%,-50%) scale(1.02) translateY(-26px); }
     }
 
     /* Sparkle trail */
-    .sparkle {
-      position: fixed;
-      left: 0; top: 0;
-      width: 10px; height: 10px;
-      border-radius: 999px;
-      pointer-events: none;
-      z-index: 9998;
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(.6);
+    .sparkle{
+      position:fixed;
+      left:0; top:0;
+      width:10px; height:10px;
+      border-radius:999px;
+      pointer-events:none;
+      z-index:9998;
+      opacity:0;
+      transform: translate(-50%,-50%) scale(.6);
       animation: sparkleFloat .85s ease-out forwards;
       will-change: transform, opacity;
-      box-shadow:
-        0 0 10px rgba(212,175,55,.55),
-        0 0 18px rgba(255,45,117,.25);
+      box-shadow: 0 0 10px rgba(212,175,55,.55), 0 0 18px rgba(255,45,117,.25);
       background: radial-gradient(circle at 30% 30%, #fff, var(--gold));
     }
-
-    @keyframes sparkleFloat {
-      0%   { opacity:0; transform: translate(-50%, -50%) scale(.5) translateY(6px); }
+    @keyframes sparkleFloat{
+      0%   { opacity:0; transform: translate(-50%,-50%) scale(.5) translateY(6px); }
       20%  { opacity:1; }
-      100% { opacity:0; transform: translate(-50%, -50%) scale(1.15) translateY(-26px); }
+      100% { opacity:0; transform: translate(-50%,-50%) scale(1.15) translateY(-26px); }
     }
 
-    /* ✅ Shake-to-reveal badge */
+    /* ✅ Mobile-first card sizing */
+    .card{
+      position:relative;
+      z-index:10;
+      width: min(94vw, 420px);
+      padding: 22px 18px;
+      background: var(--glass);
+      backdrop-filter: blur(22px);
+      border: 1.5px solid rgba(212,175,55,.28);
+      border-radius: 30px;
+      text-align:center;
+      box-shadow: 0 0 44px rgba(255,45,117,.20);
+      transform-style: preserve-3d;
+      will-change: transform;
+      max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+      overflow:auto; /* ✅ if small phone, content scroll inside card */
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* decorative corners smaller on mobile */
+    .card::before,.card::after{
+      content:"✧";
+      position:absolute;
+      color:var(--gold);
+      font-size: 18px;
+      text-shadow: 0 0 12px rgba(212,175,55,.25);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .card::before{ top:14px; left:14px; }
+    .card::after { bottom:14px; right:14px; }
+
+    .profile-wrapper{
+      width: 118px;
+      height: 118px;
+      margin: 0 auto 14px;
+    }
+    @media (min-width: 420px){
+      .profile-wrapper{ width: 150px; height: 150px; margin-bottom: 18px; }
+      .card{ padding: 34px 30px; border-radius: 40px; }
+      .card::before,.card::after{ font-size: 24px; }
+    }
+
+    .profile-wrapper img{
+      width:100%; height:100%;
+      object-fit:cover;
+      border-radius:50%;
+      border: 3px solid var(--gold);
+      padding: 4px;
+      box-shadow: 0 0 22px var(--neon-pink);
+      display:block;
+      background: rgba(255,255,255,.06);
+    }
+
+    .tag{
+      font-size: .68rem;
+      letter-spacing: 4px;
+      color: var(--neon-pink);
+      margin: 0 0 6px;
+    }
+
+    h1{
+      font-family:'Amiri',serif;
+      font-size: clamp(2.0rem, 7.5vw, 3rem);
+      color: var(--gold);
+      margin: 8px 0;
+      text-shadow: 0 0 15px rgba(212,175,55,.4);
+    }
+
+    .divider{
+      height:1px;
+      width: 64%;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 12px auto 14px;
+    }
+
+    .message{
+      font-weight:200;
+      letter-spacing:.6px;
+      line-height:1.6;
+      font-style:italic;
+      color:#eee;
+      font-size: clamp(.92rem, 3.6vw, 1.02rem);
+      margin:0;
+    }
+
+    .btn-premium{
+      margin-top: 18px;
+      background: transparent;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 12px 22px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight:600;
+      text-transform:uppercase;
+      letter-spacing: 2.5px;
+      transition: .35s;
+      width: 100%;          /* ✅ full width on mobile */
+      max-width: 320px;
+    }
+    .btn-premium:hover{
+      background: var(--gold);
+      color:#000;
+      box-shadow: 0 0 28px var(--gold);
+    }
+
+    #hidden-area{
+      display:none;
+      margin-top: 16px;
+      animation: slideUp .9s ease forwards;
+    }
+    @keyframes slideUp{
+      from{ opacity:0; transform: translateY(16px); }
+      to  { opacity:1; transform: translateY(0); }
+    }
+
+    .arabic-text{
+      font-family:'Amiri',serif;
+      font-size: clamp(1.15rem, 5vw, 1.5rem);
+      color: var(--gold);
+      margin: 0 0 6px;
+    }
+
+    /* Shake badge */
     .shakeBadge{
       position: fixed;
-      bottom: 18px;
+      bottom: calc(14px + env(safe-area-inset-bottom));
       left: 50%;
       transform: translateX(-50%);
       z-index: 20;
       background: rgba(0,0,0,.55);
       border: 1px solid rgba(212,175,55,.25);
       backdrop-filter: blur(10px);
-      padding: 10px 14px;
+      padding: 10px 12px;
       border-radius: 999px;
       font-size: 12px;
-      letter-spacing: 1px;
+      letter-spacing: .8px;
       color: rgba(255,255,255,.88);
       box-shadow: 0 0 22px rgba(255,45,117,.18);
       user-select:none;
+      width: min(92vw, 420px);   /* ✅ doesn't overflow */
+      text-align:center;
     }
     .shakeBadge b{ color: var(--gold); }
 
-    /* Premium Card */
-    .card {
-      position: relative;
-      z-index: 10;
-      width: 90%;
-      max-width: 420px;
-      padding: 40px;
-      background: var(--glass);
-      backdrop-filter: blur(25px);
-      border: 1.5px solid rgba(212, 175, 55, 0.3);
-      border-radius: 40px;
-      text-align: center;
-      box-shadow: 0 0 50px rgba(255, 45, 117, 0.2);
-      transition: transform 0.12s ease-out;
-      transform-style: preserve-3d;
-      will-change: transform;
-    }
-
-    /* Gold Decorative Corners */
-    .card::before, .card::after {
-      content: "✧";
-      position: absolute;
-      color: var(--gold);
-      font-size: 24px;
-      text-shadow: 0 0 12px rgba(212,175,55,.25);
-    }
-    .card::before { top: 20px; left: 20px; }
-    .card::after { bottom: 20px; right: 20px; }
-
-    .profile-wrapper {
-      position: relative;
-      width: 160px;
-      height: 160px;
-      margin: 0 auto 20px;
-    }
-
-    .profile-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 3px solid var(--gold);
-      padding: 5px;
-      box-shadow: 0 0 25px var(--neon-pink);
-      display: block;
-      background: rgba(255,255,255,.06);
-    }
-
-    h1 {
-      font-family: 'Amiri', serif;
-      font-size: 3rem;
-      color: var(--gold);
-      margin: 10px 0;
-      text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
-    }
-
-    .divider {
-      height: 1px;
-      width: 60%;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 15px auto;
-    }
-
-    .message {
-      font-weight: 200;
-      letter-spacing: 1px;
-      line-height: 1.6;
-      font-style: italic;
-      color: #eee;
-    }
-
-    .btn-premium {
-      margin-top: 30px;
-      background: transparent;
-      color: var(--gold);
-      border: 1px solid var(--gold);
-      padding: 12px 40px;
-      border-radius: 100px;
-      cursor: pointer;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      transition: 0.5s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-premium:hover {
-      background: var(--gold);
-      color: black;
-      box-shadow: 0 0 30px var(--gold);
-    }
-
-    #hidden-area {
-      display: none;
-      margin-top: 25px;
-      animation: slideUp 1s ease forwards;
-    }
-
-    /* ✅ Extra hidden message (shake unlock) */
+    /* Extra hidden message (shake unlock) */
     #shake-secret{
       display:none;
-      margin-top: 16px;
-      padding: 14px 16px;
+      margin-top: 14px;
+      padding: 12px 14px;
       border-radius: 22px;
       border: 1px solid rgba(212,175,55,.22);
       background: rgba(0,0,0,.45);
       box-shadow: 0 0 22px rgba(212,175,55,.08);
-      animation: slideUp 0.8s ease forwards;
+      animation: slideUp .8s ease forwards;
     }
     #shake-secret .t1{
-      font-family: 'Dancing Script', cursive;
-      font-size: 26px;
+      font-family:'Dancing Script',cursive;
+      font-size: clamp(1.2rem, 5.5vw, 1.7rem);
       color: var(--gold);
       margin: 0 0 6px;
       text-shadow: 0 0 14px rgba(212,175,55,.30);
@@ -247,27 +274,20 @@
       font-size: 13px;
       color: rgba(255,255,255,.86);
       margin:0;
-      letter-spacing:.4px;
+      letter-spacing:.35px;
       line-height:1.5;
     }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* ✅ Mobile performance: less hearts/sparkles */
+    @media (max-width: 420px){
+      .heart{ filter: drop-shadow(0 0 8px var(--neon-pink)); }
     }
 
-    .arabic-text {
-      font-family: 'Amiri', serif;
-      font-size: 1.5rem;
-      color: var(--gold);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .heart { animation: none; display: none; }
-      .card { transition: none; }
-      .pop-love { animation: none; }
-      .sparkle { display: none; }
-      .shakeBadge { display:none; }
+    @media (prefers-reduced-motion: reduce){
+      .heart{ animation:none; display:none; }
+      .pop-love{ animation:none; }
+      .sparkle{ display:none; }
+      .shakeBadge{ display:none; }
     }
   </style>
 </head>
@@ -282,7 +302,7 @@
            alt="Anime Couple">
     </div>
 
-    <p style="font-size: 0.7rem; letter-spacing: 4px; color: var(--neon-pink);">HABIBI</p>
+    <p class="tag">HABIBI</p>
     <h1>يا حبيبي</h1>
     <div class="divider"></div>
 
@@ -294,11 +314,10 @@
 
     <div id="hidden-area">
       <p class="arabic-text">أحبك إلى الأبد</p>
-      <p style="color: var(--neon-pink); font-family: 'Dancing Script', cursive; font-size: 1.8rem;">
+      <p style="color: var(--neon-pink); font-family: 'Dancing Script', cursive; font-size: 1.55rem; margin:0;">
         Always yours, Forever.
       </p>
 
-      <!-- ✅ Shake-to-reveal secret -->
       <div id="shake-secret">
         <p class="t1">Shhh… secret unlocked 💖</p>
         <p class="t2">If you’re reading this, it means you shook the phone. I’m smiling right now 😄</p>
@@ -309,12 +328,12 @@
   <div class="shakeBadge" id="shakeBadge">📱 <b>Shake</b> the phone for one more secret</div>
 
   <script>
-    // -----------------------------
-    // Smooth Tilt Effect (fixed)
-    // -----------------------------
+    // ✅ Mobile-friendly: reduce tilt strength + disable on very small screens
     const card = document.getElementById('card');
+    const isSmall = () => window.matchMedia("(max-width: 420px)").matches;
 
     function applyTilt(clientX, clientY){
+      // On tiny screens, keep tilt very light (to avoid dizziness)
       const rect = card.getBoundingClientRect();
       const cx = rect.left + rect.width/2;
       const cy = rect.top + rect.height/2;
@@ -322,117 +341,101 @@
       const dx = (clientX - cx) / (rect.width/2);
       const dy = (clientY - cy) / (rect.height/2);
 
-      const max = 10;
+      const max = isSmall() ? 5 : 10;
       const rotY = dx * max;
       const rotX = -dy * max;
 
       card.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg)`;
     }
 
-    window.addEventListener('mousemove', (e) => {
-      applyTilt(e.clientX, e.clientY);
-    }, { passive:true });
-
+    // Mouse + Touch tilt (works both)
+    window.addEventListener('mousemove', (e) => applyTilt(e.clientX, e.clientY), { passive:true });
     window.addEventListener('touchmove', (e) => {
-      if(!e.touches || !e.touches[0]) return;
-      applyTilt(e.touches[0].clientX, e.touches[0].clientY);
+      const t = e.touches && e.touches[0];
+      if(!t) return;
+      applyTilt(t.clientX, t.clientY);
     }, { passive:true });
 
     window.addEventListener('mouseleave', () => {
       card.style.transform = 'rotateY(0deg) rotateX(0deg)';
     });
 
-    // -----------------------------
-    // Sparkle Cursor Trail
-    // -----------------------------
-    const SPARKLE_MAX = 80;
-    const SPARKLE_MS = 32;
+    // Pop words on heart click
+    const LOVE_WORDS = ["Mailu", "Chellakutty", "Prangun"];
+    function showLoveWord(x,y){
+      const pop = document.createElement("div");
+      pop.className = "pop-love";
+      pop.textContent = LOVE_WORDS[Math.floor(Math.random()*LOVE_WORDS.length)];
+      pop.style.left = x + "px";
+      pop.style.top  = y + "px";
+      document.body.appendChild(pop);
+      setTimeout(()=>pop.remove(), 950);
+    }
+
+    // Sparkle trail (lighter on mobile)
+    const SPARKLE_MAX = isSmall() ? 35 : 80;
+    const SPARKLE_MS  = isSmall() ? 55 : 32;
     let lastSparkle = 0;
 
-    function spawnSparkle(x, y){
+    function spawnSparkle(x,y){
       const existing = document.querySelectorAll('.sparkle');
       if(existing.length >= SPARKLE_MAX) existing[0].remove();
 
       const s = document.createElement('div');
       s.className = 'sparkle';
       s.style.left = x + 'px';
-      s.style.top = y + 'px';
+      s.style.top  = y + 'px';
 
-      const size = Math.random() * 8 + 6;
+      const size = (isSmall() ? 5 : 6) + Math.random() * (isSmall() ? 6 : 8);
       s.style.width = size + 'px';
       s.style.height = size + 'px';
 
-      const glow = Math.random() * 0.35 + 0.25;
-      s.style.boxShadow =
-        `0 0 10px rgba(212,175,55,${glow}),
-         0 0 18px rgba(255,45,117,${glow * 0.6})`;
-
       document.body.appendChild(s);
-      s.addEventListener('animationend', () => s.remove());
+      s.addEventListener('animationend', ()=>s.remove());
     }
 
-    function handleSparkleMove(x, y){
+    function handleSparkleMove(x,y){
       const now = performance.now();
       if(now - lastSparkle < SPARKLE_MS) return;
       lastSparkle = now;
-      spawnSparkle(x, y);
+      spawnSparkle(x,y);
     }
 
-    window.addEventListener('mousemove', (e) => {
-      handleSparkleMove(e.clientX, e.clientY);
-    }, { passive:true });
-
+    window.addEventListener('mousemove', (e) => handleSparkleMove(e.clientX, e.clientY), { passive:true });
     window.addEventListener('touchmove', (e) => {
       const t = e.touches && e.touches[0];
       if(!t) return;
       handleSparkleMove(t.clientX, t.clientY);
     }, { passive:true });
 
-    // -----------------------------
-    // Click heart => random petname
-    // -----------------------------
-    const LOVE_WORDS = ["Mailu", "Chellakutty", "Prangun"];
-
-    function showLoveWord(x, y){
-      const pop = document.createElement("div");
-      pop.className = "pop-love";
-      pop.textContent = LOVE_WORDS[Math.floor(Math.random() * LOVE_WORDS.length)];
-      pop.style.left = x + "px";
-      pop.style.top = y + "px";
-      document.body.appendChild(pop);
-      setTimeout(() => pop.remove(), 950);
-    }
-
-    // -----------------------------
-    // Hearts (perf + clickable)
-    // -----------------------------
+    // Hearts (reduced on mobile)
     const container = document.getElementById('heart-container');
     const colors = ['#ff2d75', '#ff758c', '#d4af37'];
 
-    const MAX_HEARTS = 80;
-    const SPAWN_EVERY_MS = 260;
+    const MAX_HEARTS = isSmall() ? 45 : 80;
+    const SPAWN_EVERY_MS = isSmall() ? 340 : 260;
     let lastSpawn = 0;
 
-    function createHeart() {
+    function createHeart(){
       if(container.childElementCount >= MAX_HEARTS) return;
 
       const heart = document.createElement('div');
       heart.className = 'heart';
       heart.textContent = '❤';
 
-      const size = Math.random() * 25 + 10;
+      const size = Math.random() * (isSmall()? 18 : 25) + (isSmall()? 10 : 10);
       heart.style.fontSize = size + 'px';
       heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
-      heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+      heart.style.animationDuration = (Math.random() * 3 + (isSmall()? 4.5 : 5)) + 's';
+      heart.style.color = colors[Math.floor(Math.random()*colors.length)];
 
-      heart.addEventListener("pointerdown", (e) => {
+      heart.addEventListener("pointerdown", (e)=>{
         e.stopPropagation();
         showLoveWord(e.clientX, e.clientY);
       }, { passive:true });
 
       container.appendChild(heart);
-      heart.addEventListener('animationend', () => heart.remove());
+      heart.addEventListener('animationend', ()=>heart.remove());
     }
 
     function loop(ts){
@@ -446,32 +449,23 @@
     }
     requestAnimationFrame(loop);
 
-    // -----------------------------
-    // Reveal main hidden area
-    // -----------------------------
-    function reveal() {
+    // Reveal
+    function reveal(){
       const hidden = document.getElementById('hidden-area');
       const btn = document.getElementById('revealBtn');
       if(hidden.style.display === 'block') return;
-
       hidden.style.display = 'block';
       btn.style.display = 'none';
-
-      // show shake hint only after reveal
       document.getElementById('shakeBadge').style.display = 'block';
     }
 
-    // -----------------------------
-    // ✅ Shake to reveal secret (mobile)
-    // -----------------------------
+    // Shake-to-reveal
     const shakeSecret = document.getElementById('shake-secret');
     const shakeBadge = document.getElementById('shakeBadge');
     let shakeUnlocked = false;
 
-    // Shake detection tuning
-    const SHAKE_THRESHOLD = 16;     // higher => needs stronger shake
+    const SHAKE_THRESHOLD = 16;
     const COOLDOWN_MS = 1200;
-
     let lastShake = 0;
 
     function vibrate(ms){
@@ -486,43 +480,31 @@
       shakeBadge.textContent = "✅ Secret unlocked";
       vibrate([60,40,60,40,80]);
 
-      // optional: auto hide badge after a bit
-      setTimeout(() => {
-        shakeBadge.style.display = 'none';
-      }, 2500);
+      setTimeout(()=>{ shakeBadge.style.display='none'; }, 2500);
     }
 
-    // iOS requires permission for devicemotion sometimes
     async function enableMotionIfNeeded(){
-      if (typeof DeviceMotionEvent !== 'undefined' &&
-          typeof DeviceMotionEvent.requestPermission === 'function') {
-        try {
+      if(typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function'){
+        try{
           const res = await DeviceMotionEvent.requestPermission();
           return res === 'granted';
-        } catch {
-          return false;
-        }
+        }catch{ return false; }
       }
       return true;
     }
 
-    // Ask permission on first user gesture (required on iOS)
     let motionEnabled = false;
     function onFirstGesture(){
       if(motionEnabled) return;
-      enableMotionIfNeeded().then(ok => {
+      enableMotionIfNeeded().then(ok=>{
         motionEnabled = ok;
-        // If denied, badge message
-        if(!ok){
-          shakeBadge.textContent = "⚠️ Motion permission denied";
-        }
+        if(!ok) shakeBadge.textContent = "⚠️ Motion permission denied";
       });
       window.removeEventListener('pointerdown', onFirstGesture);
     }
     window.addEventListener('pointerdown', onFirstGesture, { passive:true });
 
-    window.addEventListener('devicemotion', (e) => {
-      // only meaningful after reveal
+    window.addEventListener('devicemotion', (e)=>{
       const hidden = document.getElementById('hidden-area');
       if(hidden.style.display !== 'block') return;
 
@@ -535,27 +517,24 @@
       const x = a.x || 0, y = a.y || 0, z = a.z || 0;
       const mag = Math.sqrt(x*x + y*y + z*z);
 
-      // basic shake detect
       if(mag > SHAKE_THRESHOLD){
         lastShake = now;
         unlockByShake();
       }
     });
 
-    // -----------------------------
     // Image fallback
-    // -----------------------------
     const heroImg = document.getElementById('heroImg');
-    heroImg.addEventListener('error', () => {
-      heroImg.style.display = 'none';
+    heroImg.addEventListener('error', ()=>{
+      heroImg.style.display='none';
       const wrapper = heroImg.parentElement;
-      wrapper.style.borderRadius = '50%';
-      wrapper.style.background = 'rgba(255,255,255,.06)';
-      wrapper.style.boxShadow = '0 0 25px rgba(255,45,117,.35)';
+      wrapper.style.borderRadius='50%';
+      wrapper.style.background='rgba(255,255,255,.06)';
+      wrapper.style.boxShadow='0 0 25px rgba(255,45,117,.35)';
     });
 
-    // Start with badge hidden until reveal
-    document.getElementById('shakeBadge').style.display = 'none';
+    // start badge hidden until reveal
+    shakeBadge.style.display = 'none';
   </script>
 </body>
 </html>
